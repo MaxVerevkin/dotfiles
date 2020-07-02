@@ -2,6 +2,7 @@
 
 from subprocess import run,PIPE
 from time import sleep
+import math
 
 
 # Config
@@ -14,9 +15,9 @@ def cmd(params):
     return run(params, stdout=PIPE, text=True).stdout
 
 
-# Non-linear transition
-def sigmoid(x):
-    return 1 / (1 + 2**((.4-x)/.14)) + .2
+# Logarithmic transition
+def ln(x):
+    return math.log(1.7*x + 1) + .21
 
 
 # Calculate new brightness
@@ -25,7 +26,7 @@ def calc_brightness():
     pixel = int(cmd(["sh", "-c", "ffmpeg -i /dev/video0 -vf scale=1:1 -pix_fmt gray -f rawvideo -frames:v 1 -v quiet pipe:1 | od -t u | sed 's/000000[01]\s*//'"])) / 255
 
     # Process the pixel value
-    return sigmoid(pixel)
+    return ln(pixel)
 
 
 # Get max brightness

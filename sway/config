@@ -7,6 +7,7 @@ set $ws2 "2: Browser"
 set $ws3 "3: Code"
 
 # Sway system keys
+floating_modifier $mod normal
 bindsym --to-code {
     $mod+Shift+q kill
     $mod+Shift+c reload
