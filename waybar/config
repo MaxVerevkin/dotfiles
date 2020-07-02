@@ -1,0 +1,106 @@
+{
+    "layer": "bottom",
+    "height": 27,
+
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": ["sway/window"],
+    "modules-right": ["idle_inhibitor", "custom/virtkey", "network", "pulseaudio", "memory", "temperature", "backlight", "battery", "tray", "custom/pacman", "custom/key_layout", "clock"],
+
+    "sway/workspaces": {"format": "{name}", "disable-scroll": true},
+    "sway/mode": {"tooltip": false},
+
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        },
+        "tooltip": false
+    },
+
+    "custom/virtkey": {
+        "exec": ".config/waybar/modules/virtkey.sh",
+        "interval": 1,
+        "on-click": ".config/waybar/modules/virtkey_toggle.sh"
+    },
+
+    "network": {
+        "format": "{ifname}",
+        "format-wifi": " ({signalStrength}%)",
+        "format-ethernet": "",
+        "format-disconnected": "x",
+        "tooltip-format": "{ipaddr}/{netmask}",
+        "tooltip-format-wifi": "{ifname} - {essid}",
+        "tooltip-format-ethernet": "{ifname} ",
+        "tooltip-format-disconnected": "Disconnected"
+    },
+
+    "pulseaudio": {
+        "format": "{volume}% {icon} {format_source}",
+        "format-muted": " {format_source}",
+        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-source": "{volume}% ",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol",
+        "on-click-middle": "pamixer -t",
+        "scroll-step": 5
+    },
+
+    "memory": {
+        "format": "{}% ",
+        "on-click": "alacritty --class htop-applet -e htop"
+    },
+
+    "temperature": {
+        "critical-threshold": 70,
+        "format": "{temperatureC}°C {icon}",
+        "format-icons": ["", "", ""]
+    },
+
+    "backlight": {
+        "format": "{percent}% {icon}",
+        "format-icons": ["", ""],
+        "on-scroll-up": "brightnessctl set +5%",
+        "on-scroll-down": "brightnessctl set 5%-"
+    },
+
+    "battery": {
+        "format": "{capacity}% {icon}",
+        "format-charging": "{capacity}% ",
+        "format-full": "",
+        "format-alt": "{time} {icon}",
+        "states": {
+            "normal": 70,
+            "warning": 40,
+            "critical": 20
+        },
+        "format-icons": ["", "", "", "", ""]
+    },
+
+    "custom/pacman": {
+        "interval": 600,
+        "exec": ".config/waybar/modules/pacman.sh",
+        "on-click": "echo"
+    },
+
+    "custom/key_layout": {
+        "interval": 1,
+        "exec": ".config/waybar/modules/key_layout.sh"
+    },
+
+    "clock": {
+        "format": "{:%H:%M}",
+        "format-alt": "{:%F %H:%M}",
+        "tooltip": false
+    }
+}

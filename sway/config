@@ -1,0 +1,115 @@
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+
+# Workspaces names
+set $ws1 "1: Terminal"
+set $ws2 "2: Browser"
+set $ws3 "3: Code"
+
+# Sway system keys
+bindsym --to-code {
+    $mod+Shift+q kill
+    $mod+Shift+c reload
+
+    # Exit sway (logs you out of your Wayland session)
+    $mod+Shift+e exec swaynagmode -t warning \
+        -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' \
+        -b 'Yes, exit sway' 'swaymsg exit'
+
+    # Moving around:
+    $mod+Left focus left
+    $mod+Down focus down
+    $mod+Up focus up
+    $mod+Right focus right
+
+    # Move the focused window with the same, but add Shift
+    $mod+Shift+Left move left
+    $mod+Shift+Down move down
+    $mod+Shift+Up move up
+    $mod+Shift+Right move right
+
+    # Workspaces:
+    # Switch to workspace
+    $mod+1 workspace $ws1
+    $mod+2 workspace $ws2
+    $mod+3 workspace $ws3
+    $mod+4 workspace 4
+    $mod+5 workspace 5
+    $mod+6 workspace 6
+    $mod+7 workspace 7
+    $mod+8 workspace 8
+    $mod+9 workspace 9
+    $mod+0 workspace 10
+    # Move focused container to workspace
+    $mod+Shift+1 move container to workspace $ws1
+    $mod+Shift+2 move container to workspace $ws2
+    $mod+Shift+3 move container to workspace $ws3
+    $mod+Shift+4 move container to workspace 4
+    $mod+Shift+5 move container to workspace 5
+    $mod+Shift+6 move container to workspace 6
+    $mod+Shift+7 move container to workspace 7
+    $mod+Shift+8 move container to workspace 8
+    $mod+Shift+9 move container to workspace 9
+    $mod+Shift+0 move container to workspace 10
+
+    # Layout splitting:
+    $mod+b splith
+    $mod+v splitv
+
+    # Toggle sticky
+    $mod+s sticky toggle
+
+    # Switch the current container between different layout styles
+    $mod+w layout tabbed
+    $mod+e layout toggle split
+
+    # Make the current focus fullscreen
+    $mod+f fullscreen
+
+    # Toggle the current focus between tiling and floating mode
+    $mod+Shift+space floating toggle
+
+    # Swap focus between the tiling area and the floating area
+    $mod+space focus mode_toggle
+
+    $mod+a focus parent
+    $mod+z focus child
+
+    # Scratchpad:
+    $mod+Shift+minus move scratchpad
+    $mod+minus scratchpad show
+}
+
+# Resizing containers:
+mode "resize" {
+bindsym --to-code {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+
+    Left resize shrink width 10px
+    Right resize grow width 10px
+    Down resize shrink height 10px
+    Up resize grow height 10px
+
+    # Return to default mode
+    Return mode "default"
+    Escape mode "default"
+}
+}
+bindsym --to-code $mod+r mode "resize"
+
+
+# Gaps
+smart_gaps on
+gaps inner 10
+
+# Borders
+default_border pixel 2
+smart_borders on
+client.focused #4c7899 #285577 #ffffff #2e9ef4 #ff6600
+
+# More configs
+include /etc/sway/config.d/*
+include /home/max/.config/sway/config.d/*
