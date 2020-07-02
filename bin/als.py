@@ -7,7 +7,7 @@ import math
 
 # Config
 delay = 10
-animation_duration = 5
+animation_duration = 10
 
 
 # Execute programm and return stdout
@@ -16,17 +16,13 @@ def cmd(params):
 
 
 # Logarithmic transition
-def ln(x):
-    return math.log(1.7*x + 1) + .21
+def brightness_transition(x):
+    return math.log(2*x + .9) + .17
 
 
-# Calculate new brightness
-def calc_brightness():
-    # Get pixel value from camera (from 0 to 1)
-    pixel = int(cmd(["sh", "-c", "ffmpeg -i /dev/video0 -vf scale=1:1 -pix_fmt gray -f rawvideo -frames:v 1 -v quiet pipe:1 | od -t u | sed 's/000000[01]\s*//'"])) / 255
-
-    # Process the pixel value
-    return ln(pixel)
+# Get ambient value (from 0 to 1)
+def get_ambient():
+    return int(cmd(["sh", "-c", "ffmpeg -i /dev/video0 -vf scale=1:1 -pix_fmt gray -f rawvideo -frames:v 1 -v quiet pipe:1 | od -t u | sed 's/000000[01]\s*//'"])) / 255
 
 
 # Get max brightness
@@ -36,8 +32,13 @@ prev_brightness = int(cmd(["brightnessctl", "g"]))
 
 
 while (True):
-    # Get new brightness
-    brightness = int(max_brightness * calc_brightness())
+    # Get average ambient value
+    ambient = get_ambient() / 2
+    sleep(delay)
+    ambient += get_ambient() / 2
+
+    # Calc new brightness
+    brightness = int(brightness_transition(ambient) * max_brightness)
 
     # Animate
     delta = brightness - prev_brightness
@@ -49,6 +50,7 @@ while (True):
             prev_brightness += frame_step
             run(["brightnessctl", "s", str(prev_brightness)])
             sleep(frame_duration)
-        sleep(delay)
     else:
-        sleep(delay + animation_duration)
+        sleep(animation_duration)
+
+
