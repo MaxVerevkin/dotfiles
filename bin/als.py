@@ -9,6 +9,19 @@ import math
 delay = 10
 animation_duration = 10
 
+# Camera config
+camera_config = [("brightness", "0"),
+        ("contrast", "50"),
+        ("saturation", "64"),
+        ("gamma", "300"),
+        ("gain", "64"),
+        ("backlight_compensation", "0"),
+        ("exposure_auto", "1"),
+        ("exposure_absolute", "3000"),
+        ("exposure_auto_priority", "0")]
+for conf in camera_config:
+    run(["v4l2-ctl", "--set-ctrl", conf[0]+"="+conf[1]])
+
 
 # Execute programm and return stdout
 def cmd(params):
