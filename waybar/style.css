@@ -41,6 +41,7 @@ window#waybar.code-oss { background-color: #353535; }
 #network,
 #pulseaudio,
 #memory,
+#cpu,
 #temperature,
 #backlight,
 #battery,
@@ -55,6 +56,13 @@ window#waybar.code-oss { background-color: #353535; }
     color: white;
 }
 
+#cpu,
+#temperature,
+#custom-pacman,
+#backlight {
+    color: #222;
+}
+
 #idle_inhibitor { min-width: 20px; }
 
 #network { background-color: #2980b9; }
@@ -62,10 +70,7 @@ window#waybar.code-oss { background-color: #353535; }
     background-color: #f53c3c;
 }
 
-#pulseaudio {
-    background-color: #f1c40f;
-    color: #000000;
-}
+#pulseaudio { background-color: #f1c40f; }
 #pulseaudio.muted {
     background-color: #90b1b1;
     color: #2a5c45;
@@ -73,10 +78,12 @@ window#waybar.code-oss { background-color: #353535; }
 
 #memory { background-color: #7a05f0; }
 
-#temperature { background-color: #f0932b; color: #333; }
+#cpu { background-color: #2ecc71; }
+
+#temperature { background-color: #f0932b; }
 #temperature.critical {  background-color: #eb4d4b; }
 
-#backlight { background-color: #90b1b1; color: #222; }
+#backlight { background-color: #90b1b1; }
 
 #battery { background-color: #8cc21e; color: #222; }
 #battery.warning:not(.charging) { background-color: #ffa333; }
@@ -109,7 +116,7 @@ window#waybar.code-oss { background-color: #353535; }
     padding-top: 0px;
 }
 
-#custom-pacman { color: black;  background-color: #B8C748; }
+#custom-pacman { background-color: #B8C748; }
 
 #custom-key_layout {
     min-width: 20px; 

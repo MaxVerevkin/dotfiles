@@ -4,7 +4,7 @@
 
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
-    "modules-right": ["idle_inhibitor", "custom/virtkey", "network", "pulseaudio", "memory", "temperature", "backlight", "battery", "tray", "custom/pacman", "custom/key_layout", "clock"],
+    "modules-right": ["idle_inhibitor", "custom/virtkey", "network", "pulseaudio", "memory", "cpu", "temperature", "backlight", "battery", "tray", "custom/pacman", "custom/key_layout", "clock"],
 
     "sway/workspaces": {"format": "{name}", "disable-scroll": true},
     "sway/mode": {"tooltip": false},
@@ -60,6 +60,8 @@
         "format": "{}% ",
         "on-click": "alacritty --class htop-applet -e htop"
     },
+
+    "cpu": {"format": "{usage}% "},
 
     "temperature": {
         "critical-threshold": 70,
