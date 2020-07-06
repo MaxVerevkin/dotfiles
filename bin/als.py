@@ -30,7 +30,7 @@ def cmd(params):
 
 # Logarithmic transition
 def brightness_transition(x):
-    return math.log(2*x + 1) + .2
+    return math.log(1.6*x + 1) + .2
 
 
 # Get ambient value (from 0 to 1)
