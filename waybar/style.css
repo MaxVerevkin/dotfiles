@@ -70,7 +70,10 @@ window#waybar.code-oss { background-color: #353535; }
     background-color: #f53c3c;
 }
 
-#pulseaudio { background-color: #f1c40f; }
+#pulseaudio {
+    background-color: #f1c40f;
+    color: #000000;
+}
 #pulseaudio.muted {
     background-color: #90b1b1;
     color: #2a5c45;
