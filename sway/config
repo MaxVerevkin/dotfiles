@@ -1,6 +1,8 @@
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 
+xwayland disable
+
 # Workspaces names
 set $ws1 "1: Terminal"
 set $ws2 "2: Browser"

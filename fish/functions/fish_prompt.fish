@@ -1,14 +1,17 @@
 function fish_prompt
-    if test -n "$SSH_TTY"
-        echo -n (set_color brred)"$USER"(set_color white)'@'(set_color yellow)(prompt_hostname)' '
-    end
+    
+    set exit_code $status
 
+    # Print PWD
     echo -n (set_color blue)(prompt_pwd)' '
 
-    set_color -o
-    if test "$USER" = 'root'
-        echo -n (set_color red)'# '
+    # Print exit code
+    if [ $exit_code != "0" ]
+        set_color red
+        echo -n "[$exit_code] "
     end
+
+    # Print prompt
     echo -n (set_color red)'❯'(set_color yellow)'❯'(set_color green)'❯ '
     set_color normal
 end
