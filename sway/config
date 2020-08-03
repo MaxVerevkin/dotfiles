@@ -1,7 +1,7 @@
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 
-xwayland disable
+#xwayland disable
 
 # Workspaces names
 set $ws1 "1: Terminal"
@@ -111,7 +111,7 @@ gaps inner 10
 # Borders
 default_border pixel 2
 smart_borders on
-client.focused #4c7899 #285577 #ffffff #2e9ef4 #ff6600
+#client.focused #4c7899 #4c7899 #ffffff #4c7899 #ff6600
 
 # More configs
 include /etc/sway/config.d/*

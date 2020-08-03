@@ -83,8 +83,8 @@
         "format-alt": "{time} {icon}",
         "states": {
             "normal": 70,
-            "warning": 40,
-            "critical": 20
+            "warning": 45,
+            "critical": 30
         },
         "format-icons": ["", "", "", "", ""]
     },

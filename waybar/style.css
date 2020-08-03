@@ -11,9 +11,12 @@ window#waybar {
     transition-property: background-color;
     transition-duration: .5s;
 }
+window#waybar.thunderbird,
+window#waybar.code-oss,
+window#waybar.transmission-gtk { background-color: #353535; }
 window#waybar.firefox { background-color: #000000; }
-window#waybar.Alacritty { background-color: rgba(0,0,0,.89); }
-window#waybar.code-oss { background-color: #353535; }
+window#waybar.Alacritty { background-color: #212121; }
+window#waybar.telegramdesktop { background-color: #1F2936; }
 
 #workspaces button {
     padding: 0 8px;
