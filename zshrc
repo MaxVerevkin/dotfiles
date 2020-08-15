@@ -8,8 +8,13 @@ eval $(dircolors .config/dircolors)
 PS1="%(0?..%F{red}[%?]%f )%F{blue}%1~%f %F{red}❯%F{yellow}❯%F{green}❯%f "
 RPS1='$(git_super_status)'
 
+#export PATH=$PATH:/home/max/cs162-personal/proj0/bin
+
 
 ### Aliases ###
+#
+# Shortcuts
+alias vi="nvim"
 #
 # Colors
 alias ls="ls --color=auto"
@@ -127,4 +132,3 @@ bindkey -s '^Z' 'lfcd^M'
 ### Default cursor ###
 #
 precmd() { printf '\033]50;CursorShape=1\x7'; }
-
