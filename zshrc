@@ -1,42 +1,76 @@
 ### Colors ###
 
-### Prompt and ls colors ###
-#
-# Result: '[1] .config ❯❯❯ command            (master|✚1)'
-source /usr/lib/zsh-git-prompt/zshrc.sh
-eval $(dircolors .config/dircolors)
+# [1] .config ❯❯❯ command            (master|✚1)
+source ~/.zsh/zsh-git-prompt/zshrc.sh
 PS1="%(0?..%F{red}[%?]%f )%F{blue}%1~%f %F{red}❯%F{yellow}❯%F{green}❯%f "
 RPS1='$(git_super_status)'
 
-#export PATH=$PATH:/home/max/cs162-personal/proj0/bin
-
-
 ### Aliases ###
 #
+# Verbose
+alias rm="rm -v"
+alias cp="cp -v"
+alias mv="mv -v"
+#
 # Shortcuts
+alias sudo="sudo "
 alias vi="nvim"
+alias sbfs="sudo btrfs"
 #
 # Colors
 alias ls="ls --color=auto"
 alias grep="grep --colour=auto"
 #
-# Options
+# ls
+alias ls="exa"
+alias l="ls"
 alias ll="ls -l"
 alias la="ls -la"
+# Options
 alias cal="cal -m"
 alias ssh="TERM=linux ssh"
 alias make="make -j3"
-#
-# Backup tools
-alias mount_backup="udisksctl mount -b /dev/disk/by-uuid/ddb3a586-36d4-4e3e-889d-7e41f6b407a2 -o compress=lzo"
-alias unmount_backup="udisksctl unmount -b /dev/disk/by-uuid/ddb3a586-36d4-4e3e-889d-7e41f6b407a2 && udisksctl power-off -b /dev/disk/by-uuid/ddb3a586-36d4-4e3e-889d-7e41f6b407a2"
+alias sympy="python -i -c \"from sympy import *\""
 
 
 ### Functions ###
 #
-# Send backup
-function send_backup {
-    sudo btrfs send -p /.snapshots/"$1" /.snapshots/"$2" | sudo btrfs receive "$3"
+function kpatch () {
+  patch=$1
+  shift
+  git send-email \
+    --cc-cmd="./scripts/get_maintainer.pl --norolestats $patch" \
+    $@ $patch
+}
+
+#
+# Share screen
+function share_screen() {
+    wf-recorder --muxer=v4l2 --codec=rawvideo --file=/dev/video4 -x yuv420p
+}
+#
+# Statistics
+function hist_stat {
+    history -1000000 | awk '{print $2}' | sort | uniq -c | sort -nr | less
+}
+#
+# Ctreate snapshot
+function make_snap {
+    last_snap_full=$(ls -1 /.snapshots | sort | tail -n1)
+    last_snap_date=$(echo $last_snap_full | cut -d'#' -f1)
+    last_snap_has_index=$(echo $last_snap_full | grep '#')
+    last_snap_index=$(echo $last_snap_full | cut -d'#' -f2)
+    today=$(date "+%Y-%m-%d")
+    if [ $last_snap_date = $today ]; then 
+        if [ -z $last_snap_has_index ]; then
+            sudo btrfs subvolume snapshot -r / /.snapshots/$today#2
+        else
+            index=$(($last_snap_index + 1))
+            sudo btrfs subvolume snapshot -r / /.snapshots/$today#$index
+        fi
+    else
+        sudo btrfs subvolume snapshot -r / /.snapshots/$today
+    fi
 }
 #
 # lfcd
@@ -56,7 +90,9 @@ HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.zsh/.zhistory
 setopt hist_ignore_all_dups
-setopt hist_ignore_space
+#setopt hist_ignore_space
+setopt share_history
+setopt histignorespace
 
 
 ### Basic autocomplete ###
@@ -78,31 +114,15 @@ zstyle ':completion:*' group-name ''
 
 ### Plugins ###
 #
-source /usr/share/doc/pkgfile/command-not-found.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
-
-### Change cursor shape for different modes ###
-#
-function zle-keymap-select {
-  if [[ ${KEYMAP} == vicmd ]] ||
-     [[ $1 = 'block' ]]; then
-    echo -ne '\e[1 q'
-  elif [[ ${KEYMAP} == main ]] ||
-       [[ ${KEYMAP} == viins ]] ||
-       [[ ${KEYMAP} = '' ]] ||
-       [[ $1 = 'beam' ]]; then
-    echo -ne '\e[5 q'
-  fi
-}
-zle -N zle-keymap-select
 
 
 ### Keys ###
 #
 # Use vi-like input
-bindkey -v
+bindkey -e
 #
 # TTY sends different key codes. Translate them to regular.
 bindkey -s '^[[1~' '^[[H'  # home
@@ -131,4 +151,4 @@ bindkey -s '^Z' 'lfcd^M'
 
 ### Default cursor ###
 #
-precmd() { printf '\033]50;CursorShape=1\x7'; }
+precmd() { printf '\e[5 q'; }
