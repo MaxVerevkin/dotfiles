@@ -1,12 +1,17 @@
+xwayland disable
+
+set $background /usr/share/backgrounds/bg.jpg
+exec swaylock -i $background
+
+
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 
-#xwayland disable
-
 # Workspaces names
-set $ws1 "1: Terminal"
-set $ws2 "2: Browser"
-set $ws3 "3: Code"
+set $ws1 "1: Terminal "
+set $ws2 "2: Browser "
+set $ws3 "3: Code "
+set $ws4 "4: School "
 
 # Sway system keys
 floating_modifier $mod normal
@@ -15,15 +20,20 @@ bindsym --to-code {
     $mod+Shift+c reload
 
     # Exit sway (logs you out of your Wayland session)
-    $mod+Shift+e exec swaynagmode -t warning \
-        -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' \
-        -b 'Yes, exit sway' 'swaymsg exit'
+    $mod+Shift+e exec swaynag -t warning -m 'Do you really want to exit sway?' \
+        -b '🌚️Suspend'  'loginctl suspend' \
+        -b '⚡️Shutdown' 'loginctl poweroff' \
+        -b '🌀️Reboot' 'loginctl reboot' \
+        -b '🚪️Yes, exit sway' 'swaymsg exit'
+        #--button-background=ff9100 --button-border-size=3px --border=fcc99d --text=092e47 --font=Verdana Bold 17 --background=2f3036BF
 
     # Moving around:
     $mod+Left focus left
     $mod+Down focus down
     $mod+Up focus up
     $mod+Right focus right
+    XF86AudioNext workspace next
+    XF86AudioPrev workspace prev
 
     # Move the focused window with the same, but add Shift
     $mod+Shift+Left move left
@@ -36,7 +46,7 @@ bindsym --to-code {
     $mod+1 workspace $ws1
     $mod+2 workspace $ws2
     $mod+3 workspace $ws3
-    $mod+4 workspace 4
+    $mod+4 workspace $ws4
     $mod+5 workspace 5
     $mod+6 workspace 6
     $mod+7 workspace 7
@@ -47,7 +57,7 @@ bindsym --to-code {
     $mod+Shift+1 move container to workspace $ws1
     $mod+Shift+2 move container to workspace $ws2
     $mod+Shift+3 move container to workspace $ws3
-    $mod+Shift+4 move container to workspace 4
+    $mod+Shift+4 move container to workspace $ws4
     $mod+Shift+5 move container to workspace 5
     $mod+Shift+6 move container to workspace 6
     $mod+Shift+7 move container to workspace 7
@@ -105,13 +115,14 @@ bindsym --to-code $mod+r mode "resize"
 
 
 # Gaps
-smart_gaps on
-gaps inner 10
+# smart_gaps on
+# gaps inner 5
 
 # Borders
-default_border pixel 2
+default_border pixel 1
 smart_borders on
 
+font Roboto 10
 # class                 border  backgr. text    indicator child_border
 client.focused          #5294e2 #285577 #ffffff #7c818c   #5294e2
 client.focused_inactive #383c4a #5f676a #ffffff #7c818c   #383c4a
@@ -120,5 +131,4 @@ client.urgent           #7c818c #900000 #ffffff #900000   #900000
 client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
 # More configs
-include /etc/sway/config.d/*
-include /home/max/.config/sway/config.d/*
+include ~/.config/sway/config.d/*
