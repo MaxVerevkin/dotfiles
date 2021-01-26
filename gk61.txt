@@ -1,0 +1,17 @@
+﻿[Layer1]
+Space:LShift
+
+[Layer1]
+CapsLock:Backspace
+
+[Layer1]
+Space_4:RCtrl
+
+[Layer1]
+Menu:End
+
+[Layer1]
+RAlt:Home
+
+[Layer1]
+RCtrl:TempSwitchLayer2
