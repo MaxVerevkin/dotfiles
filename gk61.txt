@@ -2,7 +2,8 @@
 CapsLock:Backspace
 Space:LShift
 Space_4:RCtrl
+
+[Base,Layer1,Layer2,Layer3]
 Menu:End
 RAlt:Home
-RCtrl:TempSwitchLayer3
-
+RCtrl:Disabled
