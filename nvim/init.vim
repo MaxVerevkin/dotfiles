@@ -1,11 +1,19 @@
 set nohlsearch
 
-map <F6> :tabe<Space>
-map <F7> :tabp<CR>
-map <F8> :tabn<CR>
+set tabstop=4
+set shiftwidth=4
+set expandtab
 
-nnoremap  <leader>y  "+y
-" nnoremap  <leader>yy  "+yy
+map <C-s> :tabp<CR>
+map <C-h> :tabn<CR>
+map <C-t> :tabe<Space>
+map gd :call CocAction('jumpDefinition', 'tab drop')<CR>
+
+nmap <leader>ac <Plug>(coc-codeaction)
+
+map  <leader>y  "+y
+map  <leader>p  "+p
+map  <leader>P  "+P
 
 " Conceal
 hi! clear Conceal
@@ -15,8 +23,8 @@ set number relativenumber
 
 " Disable status-bar
 set laststatus=0
-highlight LineNr ctermfg=grey
-highlight NonText ctermfg=0
+"highlight LineNr ctermfg=grey
+"highlight NonText ctermfg=0
 
 " Disable arrows, eable mouse
 noremap <Up> <Nop>
@@ -24,8 +32,6 @@ noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 set mouse=a
-
-
 
 
 """"""""""""""""""""""""""""""""""""""""
@@ -38,34 +44,33 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'crusoexia/vim-monokai'
 Plug 'nightsense/cosmic_latte'
 Plug 'ghifarit53/tokyonight-vim'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'ayu-theme/ayu-vim'
+Plug 'vim-scripts/colorizer'
 
-" Easy commenting`
+" Easy commenting
 Plug 'preservim/nerdcommenter'
 
 " Latex setup
-Plug 'lervag/vimtex', {'for': 'tex', 'tag': 'v1.6'}
-Plug 'KeitaNakamura/tex-conceal.vim', {'for': 'tex'}
-let g:tex_flavor='latex'
+Plug 'lervag/vimtex', {'for': 'tex'}
+let g:vimtex_mappings_enabled=0
 let g:vimtex_view_method='zathura'
 let g:vimtex_quickfix_mode=0
 let g:tex_conceal='abdmg'
-
-let g:tex_conceal_frac=1
-let g:tex_superscripts= "[0-9a-zA-W.,:;+-<>/()=]"
-let g:tex_subscripts= "[0-9,+-/().]"
+map <leader>ll <plug>(vimtex-compile)
 
 " Rust setup
-Plug 'neoclide/coc.nvim', {'for': 'rust', 'branch': 'release'}
-Plug 'rust-lang/rust.vim', {'for': 'rust'}
+Plug 'neoclide/coc.nvim', {'for': ['rust', 'tex', 'zig'], 'branch': 'release'}
+Plug 'rust-lang/rust.vim', {'for': ['rust']}
 let g:rustfmt_autosave = 1
+
+Plug 'ziglang/zig.vim'
 
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""
 """ </Plugins>
 """"""""""""""""""""""""""""""""""""""""
-
-
 
 
 " Use tab for trigger completion with characters ahead and navigate.
@@ -82,9 +87,6 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-
-"colorscheme monokai
-"let g:tokyonight_transparent_background = 1
-colorscheme tokyonight
-"colorscheme cosmic_latte
-
+runtime layout-ru.vim
+runtime layout-workman.vim
+runtime theme.vim

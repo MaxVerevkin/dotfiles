@@ -1,0 +1,18 @@
+#icons_format = " <span font_family='NotoSans Nerd Font'>{icon}</span> "
+
+#theme = "slick"
+#icons = "material-nf"
+
+[[block]]
+block = "sway_kbd"
+[block.mappings]
+"English (Workman)" = "EN"
+"Russian" = "RU"
+
+[[block]]
+block = "time"
+on_click = "kitty"
+on_right_click_sync = "kitty"
+icons_format = " "
+interval = 30
+format = "%d/%m %R"

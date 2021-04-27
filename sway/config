@@ -1,45 +1,63 @@
-xwayland disable
-
-set $background /usr/share/backgrounds/bg.jpg
+set $background /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png
 exec swaylock -i $background
 
-
-# Logo key. Use Mod1 for Alt.
+# Keys (workman)
 set $mod Mod4
+set $q q
+set $d w
+set $r e
+set $w r
+set $b t
+set $j y
+set $f u
+set $u i
+set $p o
+set $a a
+set $s s
+set $h d
+set $t f
+set $g g
+set $y h
+set $n j
+set $e k
+set $o l
+set $i ;
+set $z z
+set $x x
+set $m c
+set $c v
+set $v b
+set $k n
+set $l m
 
 # Workspaces names
-set $ws1 "1: Terminal "
-set $ws2 "2: Browser "
-set $ws3 "3: Code "
-set $ws4 "4: School "
+set $ws1 "1: Terminal"
+set $ws2 "2: Browser"
+set $ws3 "3: Code"
+set $ws4 "4: School"
 
 # Sway system keys
 floating_modifier $mod normal
 bindsym --to-code {
-    $mod+Shift+q kill
-    $mod+Shift+c reload
+    $mod+Shift+$q kill
+    $mod+Shift+$c reload
 
     # Exit sway (logs you out of your Wayland session)
-    $mod+Shift+e exec swaynag -t warning -m 'Do you really want to exit sway?' \
-        -b '🌚️Suspend'  'loginctl suspend' \
-        -b '⚡️Shutdown' 'loginctl poweroff' \
-        -b '🌀️Reboot' 'loginctl reboot' \
-        -b '🚪️Yes, exit sway' 'swaymsg exit'
-        #--button-background=ff9100 --button-border-size=3px --border=fcc99d --text=092e47 --font=Verdana Bold 17 --background=2f3036BF
+    $mod+Shift+e exec swaynag -t warning -m 'Do you really want to exit sway?' -b '🚪️Yes, exit sway' 'swaymsg exit'
 
     # Moving around:
-    $mod+Left focus left
-    $mod+Down focus down
-    $mod+Up focus up
-    $mod+Right focus right
+    $mod+$s focus left
+    $mod+$m focus down
+    $mod+$t focus up
+    $mod+$h focus right
     XF86AudioNext workspace next
     XF86AudioPrev workspace prev
 
     # Move the focused window with the same, but add Shift
-    $mod+Shift+Left move left
-    $mod+Shift+Down move down
-    $mod+Shift+Up move up
-    $mod+Shift+Right move right
+    $mod+Shift+$s move left
+    $mod+Shift+$m move down
+    $mod+Shift+$t move up
+    $mod+Shift+$h move right
 
     # Workspaces:
     # Switch to workspace
@@ -65,19 +83,11 @@ bindsym --to-code {
     $mod+Shift+9 move container to workspace 9
     $mod+Shift+0 move container to workspace 10
 
-    # Layout splitting:
-    $mod+b splith
-    $mod+v splitv
-
     # Toggle sticky
-    $mod+s sticky toggle
-
-    # Switch the current container between different layout styles
-    $mod+w layout tabbed
-    $mod+e layout toggle split
+    $mod+$a sticky toggle
 
     # Make the current focus fullscreen
-    $mod+f fullscreen
+    $mod+$f fullscreen
 
     # Toggle the current focus between tiling and floating mode
     $mod+Shift+space floating toggle
@@ -85,50 +95,40 @@ bindsym --to-code {
     # Swap focus between the tiling area and the floating area
     $mod+space focus mode_toggle
 
-    $mod+a focus parent
-    $mod+z focus child
-
     # Scratchpad:
     $mod+Shift+minus move scratchpad
     $mod+minus scratchpad show
 }
 
-# Resizing containers:
+## Resizing containers:
 mode "resize" {
 bindsym --to-code {
-    # left will shrink the containers width
-    # right will grow the containers width
-    # up will shrink the containers height
-    # down will grow the containers height
-
-    Left resize shrink width 10px
-    Right resize grow width 10px
-    Down resize shrink height 10px
-    Up resize grow height 10px
+    $s resize shrink width 10px
+    $h resize grow width 10px
+    $m resize shrink height 10px
+    $t resize grow height 10px
 
     # Return to default mode
     Return mode "default"
     Escape mode "default"
 }
 }
-bindsym --to-code $mod+r mode "resize"
+bindsym --to-code $mod+$r mode "resize"
 
 
-# Gaps
-# smart_gaps on
-# gaps inner 5
-
-# Borders
-default_border pixel 1
+## Gaps and borders
+#smart_gaps on
 smart_borders on
+#gaps inner 5
+default_border pixel 3
 
 font Roboto 10
-# class                 border  backgr. text    indicator child_border
-client.focused          #5294e2 #285577 #ffffff #7c818c   #5294e2
-client.focused_inactive #383c4a #5f676a #ffffff #7c818c   #383c4a
+## class                border  backgr  text    indicator child_border
+client.focused          #FF1412 #285577 #ffffff #FF1412   #FF1412
+client.focused_inactive #383c4a #5f676a #ffffff #383c4a   #383c4a
 client.unfocused        #383c4a #222222 #888888 #7c818c   #383c4a
 client.urgent           #7c818c #900000 #ffffff #900000   #900000
 client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
-# More configs
+## More configs
 include ~/.config/sway/config.d/*
