@@ -1,9 +1,0 @@
-{
-	"rust-analyzer.serverPath": "/bin/rust-analyzer",
-	"languageserver": {
-		"zls" : {
-			"command": "zls",
-			"filetypes": ["zig"]
-		}
-	}
-}

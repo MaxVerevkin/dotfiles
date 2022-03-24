@@ -1,1 +1,0 @@
-/home/maxv/.config/nvim/theme-dark.vim
