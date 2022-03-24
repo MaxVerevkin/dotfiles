@@ -1,0 +1,130 @@
+icons = "material-nf"
+icons_format = " <span font_family='NotoSans Nerd Font'>{icon}</span> "
+
+double_click_delay = 0
+
+# Minimalistic gruvbox-dark variant
+[theme]
+name = "native"
+[theme.overrides]
+idle_fg = "#ebdbb2"
+info_fg = "#458588"
+good_fg = "#8ec07c"
+warning_fg = "#fabd2f"
+critical_fg = "#fb4934"
+
+# [[block]]
+# block = "networkmanager"
+
+[[block]]
+block = "hueshift"
+hue_shifter = "wl_gammarelay_rs"
+
+[[block]]
+block = "focused_window"
+
+[[block]]
+block = "github"
+hide_if_total_is_zero = true
+interval = 60
+
+# [[block]]
+# block = "pacman"
+# warning_updates_regex = "linux"
+# hide_when_uptodate = true
+
+[[block]]
+block = "kdeconnect"
+format = "$bat_icon $bat_charge{ $notif_icon|}"
+bat_good = 101
+
+# [[block]]
+# block = "notify"
+
+[[block]]
+block = "bluetooth"
+mac = "00:18:09:92:1B:BA"
+adapter_mac = "F0:42:1C:ED:0D:6D"
+hide_disconnected = true
+format = ""
+
+[[block]]
+block = "net"
+device = "wlp3s0"
+format_alt = "{$ssid $frequency.eng(3) |}$device"
+[block.format]
+full = "{$signal|}$speed_down.eng(3,auto,K)$speed_up.eng(3,auto,K)"
+# full = "{$signal |}$graph_down$speed_down.eng(3,auto,K)$speed_up.eng(3,auto,K)"
+short = "$signal|"
+
+[[block]]
+block = "disk_space"
+info_type = "available"
+alert_unit = "GB"
+alert = 10.0
+warning = 15.0
+format = "$available"
+
+[[block]]
+block = "cpu"
+format = "$barchart $utilization"
+format_alt = "$frequency.eng(3,auto, M) \\|$boost"
+interval = 1
+
+[[block]]
+block = "memory"
+format_mem = "$mem_used_percents.eng(1)"
+clickable = false
+
+[[block]]
+block = "temperature"
+format = "$average|"
+chip = "*-isa-*"
+inputs = ["Core 0", "Core 1"]
+
+[[block]]
+block = "sound"
+driver = "pulseaudio"
+format = "$volume.bar(4) $volume|"
+[[block.click]]
+button = "left"
+cmd = "pavucontrol"
+
+[[block]]
+block = "music"
+hide_when_empty = true
+[block.format]
+full = "$combo.rot-str(20, 0.5) $prev $play $next|"
+short = "$combo.rot-str(15, 0.5) $play|"
+
+# [[block]]
+# block = "taskwarrior"
+# format = "$done|$count.eng(1)"
+
+[[block]]
+block = "keyboard_layout"
+driver = "sway"
+[block.mappings]
+"English (Workman)" = "EN"
+"Russian (N/A)" = "RU"
+
+[[block]]
+block = "time"
+icons_format = ""
+interval = 5
+[block.format]
+full = "%d/%m %R"
+short = "%R"
+[[block.click]]
+button = "double_left"
+cmd = "baobab"
+
+[[block]]
+block = "menu"
+text = "\uf011 "
+[[block.items]]
+display = "-> Power Off <-"
+cmd = "poweroff"
+[[block.items]]
+display = "->   Sleep   <-"
+cmd = "systemctl suspend"

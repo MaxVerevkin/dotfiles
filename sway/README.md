@@ -1,0 +1,8 @@
+- Theme: gruvbox
+- Keymap: [workman](https://workmanlayout.org/)
+- Terminal: [alacritty](https://github.com/alacritty/alacritty)
+- Status bar: [i3status-rust (async branch)](https://github.com/greshake/i3status-rust/tree/async)
+- Lock screen: [swaylock-effects](https://github.com/mortie/swaylock-effects)
+- Notifications: [dunst](https://github.com/dunst-project/dunst)
+- Tiling: [autotiling-rs](https://github.com/ammgws/autotiling-rs)
+- Workspace names: [workstyle](https://github.com/pierrechevalier83/workstyle)

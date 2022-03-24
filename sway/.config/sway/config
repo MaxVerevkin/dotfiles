@@ -1,0 +1,137 @@
+# set primary gruvbox colorscheme colors
+set $bg #282828
+set $red #cc241d
+set $green #98971a
+set $yellow #d79921
+set $blue #458588
+set $purple #b16286
+set $aqua #689d68
+set $gray #a89984
+set $darkgray #1d2021
+set $white #ffffff
+
+set $idle_args --screenshots \
+  --effect-blur 3x5 \
+  --effect-vignette 0.5:0.5
+exec swaylock
+exec swayidle -w before-sleep 'swaylock $idle_args'
+exec swaybg --color $bg
+
+# Keys (workman)
+set $mod Mod4
+set $key_q q
+set $key_d w
+set $key_r e
+set $key_w r
+set $key_b t
+set $key_j y
+set $key_f u
+set $key_u i
+set $key_p o
+set $key_a a
+set $key_s s
+set $key_h d
+set $key_t f
+set $key_g g
+set $key_y h
+set $key_n j
+set $key_e k
+set $key_o l
+set $key_i Semicolon
+set $key_z z
+set $key_x x
+set $key_m c
+set $key_c v
+set $key_v b
+set $key_k n
+set $key_l m
+
+# Sway system keys
+floating_modifier $mod normal
+bindsym --to-code {
+    $mod+Shift+$key_q kill
+    $mod+Shift+$key_c reload
+    $mod+Shift+$key_e exec swaynag -t warning -m 'Do you really want to exit sway?' -b 'Yes, exit sway' 'swaymsg exit'
+    $mod+Shift+$key_z exec systemctl suspend
+    $mod+Shift+$key_i exec swaylock $idle_args
+
+    $mod+$key_e split toggle
+
+    # Moving around:
+    $mod+$key_h focus left
+    $mod+$key_j focus down
+    $mod+$key_k focus up
+    $mod+$key_l focus right
+    XF86AudioNext workspace next
+    XF86AudioPrev workspace prev
+
+    # Move the focused window with the same, but add Shift
+    $mod+Shift+$key_h move left
+    $mod+Shift+$key_j move down
+    $mod+Shift+$key_k move up
+    $mod+Shift+$key_l move right
+
+    # Workspaces:
+    $mod+1 workspace number 1
+    $mod+2 workspace number 2
+    $mod+3 workspace number 3
+    $mod+4 workspace number 4
+    $mod+5 workspace number 5
+    $mod+6 workspace number 6
+    $mod+7 workspace number 7
+    $mod+8 workspace number 8
+    $mod+9 workspace number 9
+    $mod+0 workspace number 10
+    $mod+Shift+1 move container to workspace number 1
+    $mod+Shift+2 move container to workspace number 2
+    $mod+Shift+3 move container to workspace number 3
+    $mod+Shift+4 move container to workspace number 4
+    $mod+Shift+5 move container to workspace number 5
+    $mod+Shift+6 move container to workspace number 6
+    $mod+Shift+7 move container to workspace number 7
+    $mod+Shift+8 move container to workspace number 8
+    $mod+Shift+9 move container to workspace number 9
+    $mod+Shift+0 move container to workspace number 10
+
+    # Window modes
+    $mod+$key_a sticky toggle
+    $mod+$key_f fullscreen
+    $mod+Shift+space floating toggle
+
+    # Swap focus between the tiling area and the floating area
+    $mod+space focus mode_toggle
+
+    # Scratchpad:
+    $mod+Shift+minus move scratchpad
+    $mod+minus scratchpad show
+}
+
+## Resizing containers:
+mode "resize" {
+  bindsym --to-code {
+    Left resize shrink width 10px
+    Right resize grow width 10px
+    Down resize shrink height 10px
+    Up resize grow height 10px
+
+    # Return to default mode
+    Return mode "default"
+    Escape mode "default"
+  }
+}
+bindsym --to-code $mod+$key_r mode "resize"
+
+# Visuals
+font Roboto 10
+smart_borders on
+default_border pixel 3
+
+# blue gruvbox
+# class                 border|backgr|text|indicator|child_border
+client.focused          $blue $blue $darkgray $purple $purple
+client.focused_inactive $darkgray $darkgray $yellow $purple $yellow
+client.unfocused        $darkgray $darkgray $yellow $purple $yellow
+client.urgent        $red $red $white $purple $darkgray
+
+# More configs
+include ~/.config/sway/config.d/*
