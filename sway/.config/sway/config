@@ -134,4 +134,5 @@ client.unfocused        $darkgray $darkgray $yellow $purple $yellow
 client.urgent        $red $red $white $purple $darkgray
 
 # More configs
+include /etc/sway/config.d/*
 include ~/.config/sway/config.d/*
