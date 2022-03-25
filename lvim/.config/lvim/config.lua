@@ -125,7 +125,6 @@ lvim.plugins = {
   {
     "ellisonleao/gruvbox.nvim",
     disable = lvim.colorscheme ~= "gruvbox",
-    vim.cmd[[colorscheme gruvbox]]
   },
   {
     "folke/trouble.nvim",
