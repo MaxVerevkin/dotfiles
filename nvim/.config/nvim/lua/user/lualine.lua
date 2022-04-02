@@ -7,6 +7,21 @@ local hide_in_width = function()
   return vim.fn.winwidth(0) > 80
 end
 
+local colors = {
+  bg = "#202328",
+  fg = "#bbc2cf",
+  yellow = "#ECBE7B",
+  cyan = "#008080",
+  darkblue = "#081633",
+  green = "#98be65",
+  orange = "#FF8800",
+  violet = "#a9a1e1",
+  magenta = "#c678dd",
+  purple = "#c678dd",
+  blue = "#51afef",
+  red = "#ec5f67",
+}
+
 local function diff_source()
   local gitsigns = vim.b.gitsigns_status_dict
   if gitsigns then
@@ -80,11 +95,23 @@ local lsp = {
   cond = hide_in_width,
 }
 
+local treesitter = {
+  function()
+    local b = vim.api.nvim_get_current_buf()
+    if next(vim.treesitter.highlighter.active[b]) then
+      return ""
+    end
+    return ""
+  end,
+  color = { fg = colors.green },
+  cond = hide_in_width,
+}
+
 -- cool function for progress
 local progress = function()
   local current_line = vim.fn.line "."
   local total_lines = vim.fn.line "$"
-  local chars = { "__", "▁▁", "▂▂", "▃▃", "▄▄", "▅▅", "▆▆", "▇▇", "██" }
+  local chars = { "▁▁", "▂▂", "▃▃", "▄▄", "▅▅", "▆▆", "▇▇", "██" }
   local line_ratio = current_line / total_lines
   local index = math.ceil(line_ratio * #chars)
   return chars[index]
@@ -103,7 +130,7 @@ lualine.setup {
     lualine_a = { branch },
     lualine_b = { diff },
     lualine_c = { "filename" },
-    lualine_x = { diagnostics, lsp },
+    lualine_x = { diagnostics, treesitter, lsp },
     lualine_y = { location },
     lualine_z = { progress },
   },

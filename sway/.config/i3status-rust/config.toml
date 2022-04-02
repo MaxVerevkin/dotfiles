@@ -1,5 +1,5 @@
 icons = "material-nf"
-icons_format = " <span font_family='NotoSans Nerd Font'>{icon}</span> "
+# icons_format = " <span font_family='NotoSans Nerd Font'>{icon}</span> "
 
 double_click_delay = 0
 
@@ -12,6 +12,7 @@ info_fg = "#458588"
 good_fg = "#8ec07c"
 warning_fg = "#fabd2f"
 critical_fg = "#fb4934"
+# theme = "slick"
 
 # [[block]]
 # block = "networkmanager"
@@ -20,8 +21,8 @@ critical_fg = "#fb4934"
 block = "hueshift"
 hue_shifter = "wl_gammarelay_rs"
 
-[[block]]
-block = "focused_window"
+# [[block]]
+# block = "focused_window"
 
 [[block]]
 block = "github"
@@ -33,10 +34,10 @@ interval = 60
 # warning_updates_regex = "linux"
 # hide_when_uptodate = true
 
-[[block]]
-block = "kdeconnect"
-format = "$bat_icon $bat_charge{ $notif_icon|}"
-bat_good = 101
+# [[block]]
+# block = "kdeconnect"
+# format = "$bat_icon $bat_charge{ $notif_icon|}"
+# bat_good = 101
 
 # [[block]]
 # block = "notify"
@@ -101,12 +102,12 @@ short = "$combo.rot-str(15, 0.5) $play|"
 # block = "taskwarrior"
 # format = "$done|$count.eng(1)"
 
-[[block]]
-block = "keyboard_layout"
-driver = "sway"
-[block.mappings]
-"English (Workman)" = "EN"
-"Russian (N/A)" = "RU"
+# [[block]]
+# block = "keyboard_layout"
+# driver = "sway"
+# [block.mappings]
+# "English (Workman)" = "EN"
+# "Russian (N/A)" = "RU"
 
 [[block]]
 block = "time"
@@ -123,8 +124,8 @@ cmd = "baobab"
 block = "menu"
 text = "\uf011 "
 [[block.items]]
-display = "-> Power Off <-"
-cmd = "poweroff"
-[[block.items]]
-display = "->   Sleep   <-"
+display = "-&gt;   Sleep   &lt;-"
 cmd = "systemctl suspend"
+[[block.items]]
+display = "-&gt; Power Off &lt;-"
+cmd = "poweroff"

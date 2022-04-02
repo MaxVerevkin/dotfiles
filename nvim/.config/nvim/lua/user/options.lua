@@ -22,8 +22,8 @@ o.undofile = true -- enable persistent undo
 o.updatetime = 300 -- faster completion (4000ms default)
 o.writebackup = false -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 o.expandtab = true -- convert tabs to spaces
-o.shiftwidth = 2 -- the number of spaces inserted for each indentation
-o.tabstop = 2 -- insert 2 spaces for a tab
+o.shiftwidth = 4 -- the number of spaces inserted for each indentation
+o.tabstop = 4 -- insert 4 spaces for a tab
 -- o.cursorline = true -- highlight the current line
 o.number = true -- set numbered lines
 o.relativenumber = false -- set relative numbered lines
@@ -36,5 +36,3 @@ o.title = true
 o.guifont = "JetBrainsMono Nerd Font:h11"
 
 o.shortmess:append "c"
-
-vim.cmd "set whichwrap+=<,>,[,],h,l"
