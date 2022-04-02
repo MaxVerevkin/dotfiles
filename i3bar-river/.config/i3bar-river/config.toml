@@ -1,0 +1,12 @@
+background = "#282828"
+color = "#ffffff"
+separator = "#9a8a62"
+tag_fg = "#d79921"
+tag_bg = "#282828"
+tag_focused_fg = "#1d2021"
+tag_focused_bg = "#689d68"
+tag_urgent_fg = "#282828"
+tag_urgent_bg = "#cc241d"
+font = "JetBrainsMono Nerd Font 10"
+height = 20
+command = "~/i3status-rust/target/debug/i3status-rs"
