@@ -2,7 +2,7 @@ local o = vim.opt
 
 o.backup = false -- creates a backup file
 o.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
-o.cmdheight = 1 -- more space in the neovim command line for displaying messages
+o.cmdheight = 1
 o.completeopt = { "menuone", "noselect" } -- mostly just for cmp
 o.conceallevel = 0 -- so that `` is visible in markdown files
 o.fileencoding = "utf-8" -- the encoding written to a file
@@ -22,17 +22,18 @@ o.undofile = true -- enable persistent undo
 o.updatetime = 300 -- faster completion (4000ms default)
 o.writebackup = false -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 o.expandtab = true -- convert tabs to spaces
-o.shiftwidth = 4 -- the number of spaces inserted for each indentation
-o.tabstop = 4 -- insert 4 spaces for a tab
--- o.cursorline = true -- highlight the current line
+o.cursorline = true -- highlight the current line
 o.number = true -- set numbered lines
 o.relativenumber = false -- set relative numbered lines
-o.numberwidth = 4 -- set number column width to 2 {default 4}
+o.numberwidth = 1 -- set number column width to 2 {default 4}
 o.signcolumn = "yes" -- always show the sign column, otherwise it would shift the text each time
-o.wrap = false -- display lines as one long line
+-- o.wrap = false -- display lines as one long line
 o.scrolloff = 8 -- is one of my fav
 o.sidescrolloff = 8
 o.title = true
 o.guifont = "JetBrainsMono Nerd Font:h11"
+
+o.shiftwidth = 4 -- the number of spaces inserted for each indentation
+o.tabstop = 4 -- insert 4 spaces for a tab
 
 o.shortmess:append "c"
