@@ -34,7 +34,6 @@ packer.init {
   display = {
     open_fn = function()
       return require("packer.util").float { border = "none" }
-      -- return require("packer.util").float { border = "rounded" }
     end,
   },
 }
@@ -50,8 +49,6 @@ return packer.startup(function(use)
   use "kyazdani42/nvim-web-devicons"
   use "kyazdani42/nvim-tree.lua"
   use "akinsho/bufferline.nvim"
-  use "moll/vim-bbye"
-  use "nvim-lualine/lualine.nvim"
   use "akinsho/toggleterm.nvim"
   use "ahmedkhalf/project.nvim"
   use "lewis6991/impatient.nvim"
@@ -61,10 +58,23 @@ return packer.startup(function(use)
   use "folke/which-key.nvim" -- a popup with possible keybindings
   use "stevearc/dressing.nvim" -- Improve the default vim.ui interfaces
 
+  -- Status line
+  use "nvim-lualine/lualine.nvim"
+  use {
+    "SmiteshP/nvim-gps",
+    config = function()
+      require("nvim-gps").setup()
+    end,
+  }
+
   -- A fancy, configurable, notification manager
   use {
     "rcarriga/nvim-notify",
     config = function()
+      require("notify").setup {
+        stages = "slide",
+        timeout = 1000,
+      }
       vim.notify = require "notify"
     end,
   }
@@ -91,7 +101,6 @@ return packer.startup(function(use)
   use "neovim/nvim-lspconfig" -- enable LSP
   use "williamboman/nvim-lsp-installer" -- simple to use language server installer
   use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
-  use "folke/trouble.nvim"
 
   -- Telescope
   use "nvim-telescope/telescope.nvim"
