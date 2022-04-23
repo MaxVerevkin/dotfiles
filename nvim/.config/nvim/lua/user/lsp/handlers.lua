@@ -57,13 +57,15 @@ end
 
 local function lsp_keymaps(bufnr)
   local keymap = function(key, cmd)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", key, cmd, { noremap = true, silent = true })
+    vim.keymap.set("n", key, cmd, { buffer = bufnr, silent = true })
   end
   keymap("gd", "<cmd>Telescope lsp_definitions<cr>")
   keymap("gr", "<cmd>Telescope lsp_references<cr>")
   keymap("gi", "<cmd>Telescope lsp_implementations<cr>")
-  keymap("K", "<cmd>lua vim.lsp.buf.hover()<cr>")
-  keymap("gl", "<cmd>lua vim.diagnostic.open_float(0, { border = 'rounded' })<cr>")
+  keymap("K", vim.lsp.buf.hover)
+  keymap("gl", function()
+    vim.diagnostic.open_float(0, { border = "rounded" })
+  end)
 end
 
 M.on_attach = function(client, bufnr)
