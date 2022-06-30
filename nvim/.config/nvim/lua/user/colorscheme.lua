@@ -1,7 +1,18 @@
 vim.o.termguicolors = true
 vim.g.gruvbox_sign_column = "bg0"
 
-local default_theme = "gruvbox"
+-- local status_ok_1, gruvbox = pcall(require, "gruvbox")
+-- if status_ok_1 then
+--   local colors = require "gruvbox.palette"
+--   gruvbox.setup {
+--     overrides = {
+--       SignColumn = { bg = colors.dark0 }, -- depending on your background and contrast this can vary.
+--     },
+--   }
+-- end
+
+local default_theme = "darkplus"
+-- local default_theme = "gruvbox"
 local status_ok, _ = pcall(vim.cmd, "colorscheme " .. default_theme)
 if not status_ok then
   vim.notify("colorscheme '" .. default_theme .. "' not found!")

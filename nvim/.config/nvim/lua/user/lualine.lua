@@ -1,17 +1,12 @@
-local status_ok, lualine = pcall(require, "lualine")
-if not status_ok then
-  return
-end
-
-local status_ok_gps, gps = pcall(require, "nvim-gps")
-if not status_ok_gps then
-  return
-end
-
-local hide_in_width = function()
-  return vim.fn.winwidth(0) > 80
-end
-
+-- local status_ok, lualine = pcall(require, "lualine")
+-- if not status_ok then
+--   return
+-- end
+--
+-- local hide_in_width = function()
+--   return vim.fn.winwidth(0) > 80
+-- end
+--
 local colors = {
   bg = "#202328",
   fg = "#bbc2cf",
@@ -26,78 +21,285 @@ local colors = {
   blue = "#51afef",
   red = "#ec5f67",
 }
+--
+-- local function diff_source()
+--   local gitsigns = vim.b.gitsigns_status_dict
+--   if gitsigns then
+--     return {
+--       added = gitsigns.added,
+--       modified = gitsigns.changed,
+--       removed = gitsigns.removed,
+--     }
+--   end
+-- end
+--
+-- local diff = {
+--   "diff",
+--   source = diff_source,
+--   symbols = { added = "  ", modified = " ", removed = " " },
+-- }
+--
+-- local branch = {
+--   "branch",
+--   icons_enabled = true,
+--   icon = "",
+-- }
+--
+-- local location = {
+--   "location",
+--   padding = 0,
+-- }
+--
+-- local diagnostics = {
+--   "diagnostics",
+--   sources = { "nvim_diagnostic" },
+--   symbols = { error = " ", warn = " ", info = " ", hint = " " },
+--   color = {},
+--   cond = hide_in_width,
+-- }
+--
+-- local lsp = {
+--   function(msg)
+--     msg = msg or "LS Inactive"
+--     local buf_clients = vim.lsp.buf_get_clients()
+--     if next(buf_clients) == nil then
+--       -- TODO: clean up this if statement
+--       if type(msg) == "boolean" or #msg == 0 then
+--         return "LS Inactive"
+--       end
+--       return msg
+--     end
+--     -- local buf_ft = vim.bo.filetype
+--     local buf_client_names = {}
+--
+--     -- add client
+--     for _, client in pairs(buf_clients) do
+--       if client.name ~= "null-ls" then
+--         table.insert(buf_client_names, client.name)
+--       end
+--     end
+--
+--     -- add formatter
+--     -- local formatters = require "lvim.lsp.null-ls.formatters"
+--     -- local supported_formatters = formatters.list_registered(buf_ft)
+--     -- vim.list_extend(buf_client_names, supported_formatters)
+--
+--     -- add linter
+--     -- local linters = require "lvim.lsp.null-ls.linters"
+--     -- local supported_linters = linters.list_registered(buf_ft)
+--     -- vim.list_extend(buf_client_names, supported_linters)
+--
+--     return "[" .. table.concat(buf_client_names, ", ") .. "]"
+--   end,
+--   color = { gui = "bold" },
+--   cond = hide_in_width,
+-- }
+--
+-- local treesitter = {
+--   function()
+--     local b = vim.api.nvim_get_current_buf()
+--     if next(vim.treesitter.highlighter.active[b]) then
+--       return ""
+--     end
+--     return ""
+--   end,
+--   color = { fg = colors.green },
+--   cond = hide_in_width,
+-- }
+--
+-- -- cool function for progress
+-- local progress = function()
+--   local current_line = vim.fn.line "."
+--   local total_lines = vim.fn.line "$"
+--   local chars = { "▁▁", "▂▂", "▃▃", "▄▄", "▅▅", "▆▆", "▇▇", "██" }
+--   local line_ratio = current_line / total_lines
+--   local index = math.ceil(line_ratio * #chars)
+--   return chars[index]
+-- end
+--
+-- lualine.setup {
+--   options = {
+--     icons_enabled = true,
+--     theme = "auto",
+--     component_separators = { left = "", right = "" },
+--     section_separators = { left = "", right = "" },
+--     disabled_filetypes = { "alpha", "dashboard", "NvimTree", "Outline" },
+--     always_divide_middle = true,
+--     globalstatus = true,
+--   },
+--   sections = {
+--     lualine_a = { branch },
+--     lualine_b = { diff },
+--     lualine_c = { },
+--     lualine_x = { diagnostics, treesitter, lsp },
+--     lualine_y = { location },
+--     lualine_z = { progress },
+--   },
+--   inactive_sections = {
+--     lualine_a = {},
+--     lualine_b = {},
+--     lualine_c = { "filename" },
+--     lualine_x = { "location" },
+--     lualine_y = {},
+--     lualine_z = {},
+--   },
+--   tabline = {},
+--   extensions = {},
+-- }
 
-local function diff_source()
-  local gitsigns = vim.b.gitsigns_status_dict
-  if gitsigns then
-    return {
-      added = gitsigns.added,
-      modified = gitsigns.changed,
-      removed = gitsigns.removed,
-    }
-  end
+local status_ok, lualine = pcall(require, "lualine")
+if not status_ok then
+  return
 end
+
+local status_theme_ok, theme = pcall(require, "lualine.themes.darkplus_dark")
+if not status_theme_ok then
+  return
+end
+
+vim.api.nvim_set_hl(0, "SLGitIcon", { fg = "#E8AB53", bg = "#303030" })
+vim.api.nvim_set_hl(0, "SLBranchName", { fg = "#D4D4D4", bg = "#303030", bold = false })
+-- vim.api.nvim_set_hl(0, "SLProgress", { fg = "#D7BA7D", bg = "#252525" })
+vim.api.nvim_set_hl(0, "SLProgress", { fg = "#D4D4D4", bg = "#303030" })
+vim.api.nvim_set_hl(0, "SLSeparator", { fg = "#808080", bg = "#252525" })
+local mode_color = {
+  n = "#569cd6",
+  i = "#6a9955",
+  v = "#c586c0",
+  [""] = "#c586c0",
+  V = "#c586c0",
+  -- c = '#B5CEA8',
+  -- c = '#D7BA7D',
+  c = "#4EC9B0",
+  no = "#569cd6",
+  s = "#ce9178",
+  S = "#ce9178",
+  [""] = "#ce9178",
+  ic = "#dcdcaa",
+  R = "#d16969",
+  Rv = "#d16969",
+  cv = "#569cd6",
+  ce = "#569cd6",
+  r = "#d16969",
+  rm = "#4EC9B0",
+  ["r?"] = "#4EC9B0",
+  ["!"] = "#4EC9B0",
+  t = "#D7BA7D",
+}
+
+local mode = {
+  -- mode component
+  function()
+    return "▊"
+  end,
+  color = function()
+    -- auto change color according to neovims mode
+    return { fg = mode_color[vim.fn.mode()] }
+  end,
+  -- padding = { right = 1 },
+  padding = 0,
+}
+
+local hide_in_width = function()
+  return vim.fn.winwidth(0) > 80
+end
+
+local icons = require "user.icons"
+
+local diagnostics = {
+  "diagnostics",
+  sources = { "nvim_diagnostic" },
+  sections = { "error", "warn" },
+  symbols = { error = icons.diagnostics.Error .. " ", warn = icons.diagnostics.Warning .. " " },
+  colored = false,
+  update_in_insert = false,
+  always_visible = true,
+}
 
 local diff = {
   "diff",
-  source = diff_source,
-  symbols = { added = "  ", modified = " ", removed = " " },
+  colored = false,
+  symbols = { added = icons.git.Add .. " ", modified = icons.git.Mod .. " ", removed = icons.git.Remove .. " " }, -- changes diff symbols
+  cond = hide_in_width,
+  separator = "%#SLSeparator#" .. "│ " .. "%*",
+}
+
+-- local mode = {
+--   "mode",
+--   fmt = function(str)
+--     return "-- " .. str .. " --"
+--   end,
+-- }
+
+local filetype = {
+  "filetype",
+  icons_enabled = true,
+  -- icon = nil,
 }
 
 local branch = {
   "branch",
   icons_enabled = true,
-  icon = "",
+  icon = "%#SLGitIcon#" .. "" .. "%*" .. "%#SLBranchName#",
+  -- color = "Constant",
+  colored = false,
+}
+
+local progress = {
+  "progress",
+  color = "SLProgress",
+  -- fmt = function(str)
+  --   print(vim.fn.expand(str))
+  --   if str == "1%" then
+  --     return "TOP"
+  --   end
+  --   if str == "100%" then
+  --     return "BOT"
+  --   end
+  --   return str
+  -- end,
+  -- padding = 0,
+}
+
+-- local progress = {
+--   "progress",
+--   fmt = function(str)
+--     print(vim.fn.expand(str))
+--     if str == "1%" then
+--       return "TOP"
+--     end
+--     if str == "100%" then
+--       return "BOT"
+--     end
+--     return str
+--   end,
+--   -- padding = 0,
+-- }
+
+-- cool function for progress
+-- local progress = function()
+--   local current_line = vim.fn.line "."
+--   local total_lines = vim.fn.line "$"
+--   local chars = { "__", "▁▁", "▂▂", "▃▃", "▄▄", "▅▅", "▆▆", "▇▇", "██" }
+--   local line_ratio = current_line / total_lines
+--   local index = math.ceil(line_ratio * #chars)
+--   -- return chars[index]
+--   return "%#SLProgress#" .. chars[index] .. "%*"
+-- end
+
+local spaces = {
+  function()
+    return "spaces: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
+  end,
+  padding = 0,
+  separator = "%#SLSeparator#" .. " │" .. "%*",
 }
 
 local location = {
   "location",
-  padding = 0,
-}
-
-local diagnostics = {
-  "diagnostics",
-  sources = { "nvim_diagnostic" },
-  symbols = { error = " ", warn = " ", info = " ", hint = " " },
-  color = {},
-  cond = hide_in_width,
-}
-
-local lsp = {
-  function(msg)
-    msg = msg or "LS Inactive"
-    local buf_clients = vim.lsp.buf_get_clients()
-    if next(buf_clients) == nil then
-      -- TODO: clean up this if statement
-      if type(msg) == "boolean" or #msg == 0 then
-        return "LS Inactive"
-      end
-      return msg
-    end
-    -- local buf_ft = vim.bo.filetype
-    local buf_client_names = {}
-
-    -- add client
-    for _, client in pairs(buf_clients) do
-      if client.name ~= "null-ls" then
-        table.insert(buf_client_names, client.name)
-      end
-    end
-
-    -- add formatter
-    -- local formatters = require "lvim.lsp.null-ls.formatters"
-    -- local supported_formatters = formatters.list_registered(buf_ft)
-    -- vim.list_extend(buf_client_names, supported_formatters)
-
-    -- add linter
-    -- local linters = require "lvim.lsp.null-ls.linters"
-    -- local supported_linters = linters.list_registered(buf_ft)
-    -- vim.list_extend(buf_client_names, supported_linters)
-
-    return "[" .. table.concat(buf_client_names, ", ") .. "]"
+  color = function()
+    return { fg = "#252525", bg = mode_color[vim.fn.mode()] }
   end,
-  color = { gui = "bold" },
-  cond = hide_in_width,
 }
 
 local treesitter = {
@@ -110,40 +312,32 @@ local treesitter = {
   end,
   color = { fg = colors.green },
   cond = hide_in_width,
+  separator = "%#SLSeparator#" .. " │" .. "%*",
 }
-
--- cool function for progress
-local progress = function()
-  local current_line = vim.fn.line "."
-  local total_lines = vim.fn.line "$"
-  local chars = { "▁▁", "▂▂", "▃▃", "▄▄", "▅▅", "▆▆", "▇▇", "██" }
-  local line_ratio = current_line / total_lines
-  local index = math.ceil(line_ratio * #chars)
-  return chars[index]
-end
 
 lualine.setup {
   options = {
+    globalstatus = true,
     icons_enabled = true,
-    theme = "auto",
+    -- theme = "auto",
+    theme = theme,
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
-    disabled_filetypes = { "alpha", "dashboard", "NvimTree", "Outline" },
+    disabled_filetypes = { "alpha", "dashboard" },
     always_divide_middle = true,
-    globalstatus = true,
   },
   sections = {
-    lualine_a = { branch },
-    lualine_b = { diff },
-    lualine_c = { "filename", { gps.get_location, cond = gps.is_available } },
-    lualine_x = { diagnostics, treesitter, lsp },
-    lualine_y = { location },
-    lualine_z = { progress },
+    lualine_a = { mode, branch },
+    lualine_b = { diagnostics },
+    lualine_c = {},
+    lualine_x = { treesitter, diff, spaces, filetype },
+    lualine_y = { progress },
+    lualine_z = { location },
   },
   inactive_sections = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = { "filename" },
+    lualine_c = {},
     lualine_x = { "location" },
     lualine_y = {},
     lualine_z = {},

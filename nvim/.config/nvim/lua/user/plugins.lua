@@ -1,27 +1,15 @@
-local fn = vim.fn
-
 -- Automatically install packer
-local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
-if fn.empty(fn.glob(install_path)) > 0 then
-  PACKER_BOOTSTRAP = fn.system {
-    "git",
-    "clone",
-    "--depth",
-    "1",
-    "https://github.com/wbthomason/packer.nvim",
-    install_path,
-  }
-  print "Installing packer close and reopen Neovim..."
-  vim.cmd [[packadd packer.nvim]]
+local install_path = vim.fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+  vim.fn.execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
 end
 
--- Autocommand that reloads neovim whenever you save the plugins.lua file
-vim.cmd [[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
-  augroup end
-]]
+local packer_group = vim.api.nvim_create_augroup("Packer", { clear = true })
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = "plugins.lua",
+  group = packer_group,
+  command = "source <afile> | PackerSync",
+})
 
 -- Use a protected call so we don't error out on first use
 local status_ok, packer = pcall(require, "packer")
@@ -31,6 +19,7 @@ end
 
 -- Have packer use a popup window
 packer.init {
+  -- snapshot = "it-works",
   display = {
     open_fn = function()
       return require("packer.util").float { border = "none" }
@@ -42,13 +31,13 @@ packer.init {
 return packer.startup(function(use)
   -- My plugins here
   use "wbthomason/packer.nvim" -- Have packer manage itself
-  use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
+  -- use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
   use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
   use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
   use "numToStr/Comment.nvim" -- Easily comment stuff
+  use "moll/vim-bbye"
   use "kyazdani42/nvim-web-devicons"
   use "kyazdani42/nvim-tree.lua"
-  use "akinsho/bufferline.nvim"
   use "akinsho/toggleterm.nvim"
   use "ahmedkhalf/project.nvim"
   use "lewis6991/impatient.nvim"
@@ -58,31 +47,19 @@ return packer.startup(function(use)
   use "folke/which-key.nvim" -- a popup with possible keybindings
   use "stevearc/dressing.nvim" -- Improve the default vim.ui interfaces
 
+  -- use "phaazon/hop.nvim"
+  use { "ChristianChiarulli/hop.nvim", branch = "fix-pending-operation-col-increment" }
+
   -- Status line
   use "nvim-lualine/lualine.nvim"
-  use {
-    "SmiteshP/nvim-gps",
-    config = function()
-      require("nvim-gps").setup()
-    end,
-  }
-
-  -- A fancy, configurable, notification manager
-  use {
-    "rcarriga/nvim-notify",
-    config = function()
-      require("notify").setup {
-        stages = "slide",
-        timeout = 1000,
-      }
-      vim.notify = require "notify"
-    end,
-  }
+  use "SmiteshP/nvim-navic"
 
   -- Colorschemes
-  use "lunarvim/colorschemes" -- A set of themes with excelent plugin support
-  use "ellisonleao/gruvbox.nvim" -- My fav theme
-  use "alex-popov-tech/timer.nvim" -- For automatic theme switching
+  -- use "lunarvim/colorschemes" -- A set of themes with excelent plugin support
+  use { "ellisonleao/gruvbox.nvim" } -- My fav theme
+  -- use { "ellisonleao/gruvbox.nvim", commit = "3352c12c083d0ab6285a9738b7679e24e7602411" } -- My fav theme
+  -- use "alex-popov-tech/timer.nvim" -- For automatic theme switching
+  use "lunarvim/darkplus.nvim"
 
   -- cmp plugins
   use "hrsh7th/nvim-cmp" -- The completion plugin
@@ -101,6 +78,7 @@ return packer.startup(function(use)
   use "neovim/nvim-lspconfig" -- enable LSP
   use "williamboman/nvim-lsp-installer" -- simple to use language server installer
   use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
+  use "ray-x/lsp_signature.nvim"
 
   -- Telescope
   use "nvim-telescope/telescope.nvim"
@@ -115,15 +93,26 @@ return packer.startup(function(use)
   -- Git
   use "lewis6991/gitsigns.nvim"
 
+  use {
+    "j-hui/fidget.nvim",
+    config = function()
+      require("fidget").setup()
+    end,
+  }
+
   -- Rust
   use {
     "saecki/crates.nvim",
-    tag = "v0.1.0",
+    tag = "v0.2.0",
     event = { "BufRead Cargo.toml" },
     config = function()
       require("crates").setup()
     end,
   }
+  use "simrat39/rust-tools.nvim"
+  -- use "Avimitin/rust-tools.nvim"
+
+  use "seandewar/nvimesweeper"
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

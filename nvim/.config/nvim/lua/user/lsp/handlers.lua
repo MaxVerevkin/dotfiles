@@ -39,44 +39,48 @@ M.setup = function()
   })
 end
 
-local function lsp_highlight_document(client)
-  -- Set autocommands conditional on server_capabilities
-  if client.resolved_capabilities.document_highlight then
-    vim.api.nvim_exec(
-      [[
-      augroup lsp_document_highlight
-        autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-    ]],
-      false
-    )
-  end
+local function lsp_highlight_document()
+  vim.api.nvim_exec(
+    [[
+    augroup lsp_document_highlight
+      autocmd! * <buffer>
+      autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+      autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+    augroup END
+  ]],
+    false
+  )
 end
 
-local function lsp_keymaps(bufnr)
-  local keymap = function(key, cmd)
-    vim.keymap.set("n", key, cmd, { buffer = bufnr, silent = true })
+local function lsp_keymaps(client, bufnr)
+  local keymap = function(mode, key, cmd)
+    vim.keymap.set(mode, key, cmd, { buffer = bufnr, silent = true })
   end
-  keymap("gd", "<cmd>Telescope lsp_definitions<cr>")
-  keymap("gr", "<cmd>Telescope lsp_references<cr>")
-  keymap("gi", "<cmd>Telescope lsp_implementations<cr>")
-  keymap("K", vim.lsp.buf.hover)
-  keymap("gl", function()
+  keymap("n", "gd", "<cmd>Telescope lsp_definitions<cr>")
+  keymap("n", "gr", "<cmd>Telescope lsp_references<cr>")
+  keymap("n", "gi", "<cmd>Telescope lsp_implementations<cr>")
+  keymap("n", "K", vim.lsp.buf.hover)
+  keymap("n", "<A-{>", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
+  keymap("n", "<A-}>", "<cmd>lua vim.diagnostic.goto_next()<CR>")
+  if client.name == "rust_analyzer" then
+    keymap("v", "K", require("rust-tools.hover_range").hover_range)
+  end
+  keymap("n", "gl", function()
     vim.diagnostic.open_float(0, { border = "rounded" })
   end)
 end
 
 M.on_attach = function(client, bufnr)
-  if client.name == "tsserver" then
-    client.resolved_capabilities.document_formatting = false
+  lsp_keymaps(client, bufnr)
+  require("user.autoformat").on_attach(client, bufnr)
+  require("user.nvim-navic").on_attach(client, bufnr)
+
+  -- FIXME: use `pcall`
+  require("lsp_signature").on_attach()
+
+  if client.server_capabilities.documentHighlightProvider then
+    lsp_highlight_document()
   end
-  if client.name == "sumneko_lua" then
-    client.resolved_capabilities.document_formatting = false
-  end
-  lsp_keymaps(bufnr)
-  lsp_highlight_document(client)
 end
 
 M.capabilities = vim.lsp.protocol.make_client_capabilities()

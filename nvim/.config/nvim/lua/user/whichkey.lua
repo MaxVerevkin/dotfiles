@@ -102,22 +102,14 @@ local mappings = {
   ["e"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
   ["w"] = { "<cmd>w!<CR>", "Save" },
   ["q"] = { "<cmd>q!<CR>", "Quit" },
-  ["c"] = { "<cmd>bdelete!<CR>", "Close Buffer" },
+  ["c"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
   ["f"] = {
     "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
     "Find files",
   },
   ["F"] = { "<cmd>Telescope live_grep theme=ivy<cr>", "Find Text" },
-  ["P"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
 
-  p = {
-    name = "Packer",
-    c = { "<cmd>PackerCompile<cr>", "Compile" },
-    i = { "<cmd>PackerInstall<cr>", "Install" },
-    s = { "<cmd>PackerSync<cr>", "Sync" },
-    S = { "<cmd>PackerStatus<cr>", "Status" },
-    u = { "<cmd>PackerUpdate<cr>", "Update" },
-  },
+  u = { "<cmd>PackerSync<cr>", "Packer Sync" },
 
   g = {
     name = "Git",
@@ -144,17 +136,14 @@ local mappings = {
   l = {
     name = "LSP",
     t = { "<cmd>TroubleToggle<cr>", "Toggle Trouble" },
-    a = { "<cmd>Telescope lsp_code_actions theme=cursor<cr>", "Code Actions" },
-    d = { "<cmd>Trouble document_diagnostics<cr>", "Document Diagnostics" },
-    w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
-    f = { "<cmd>lua vim.lsp.buf.formatting()<cr>", "Format" },
+    a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Actions" },
+    d = { "<cmd>Telescope diagnostics<cr>", "Document Diagnostics" },
     i = { "<cmd>LspInfo<cr>", "Info" },
     I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
-    j = { "<cmd>lua vim.diagnostic.goto_next()<CR>", "Next Diagnostic" },
-    k = { "<cmd>lua vim.diagnostic.goto_prev()<cr>", "Prev Diagnostic" },
     l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
     r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
     s = { "<cmd>LspRestart<cr>", "Restart Server" },
+    f = { "<cmd>lua require('user.autoformat').toggle()<cr>", "Toggle Autoformat" },
   },
   s = {
     name = "Search",

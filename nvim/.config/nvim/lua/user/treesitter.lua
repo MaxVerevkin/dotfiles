@@ -4,16 +4,14 @@ if not status_ok then
 end
 
 configs.setup {
-  -- ensure_installed = "all",
-  sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
-  ignore_install = { "" }, -- List of parsers to ignore installing
+  sync_install = false,
   autopairs = {
     enable = true,
   },
   highlight = {
-    enable = true, -- false will disable the whole extension
-    disable = { "" }, -- list of language that will be disabled
-    additional_vim_regex_highlighting = true,
+    enable = true,
+    disable = { "" },
+    additional_vim_regex_highlighting = false,
   },
   indent = { enable = true, disable = { "yaml", "rust" } },
   context_commentstring = {
