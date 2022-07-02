@@ -26,11 +26,12 @@ o.number = true -- set numbered lines
 o.relativenumber = false -- set relative numbered lines
 o.numberwidth = 1 -- set number column width to 2 {default 4}
 o.signcolumn = "yes" -- always show the sign column, otherwise it would shift the text each time
--- o.wrap = false -- display lines as one long line
+o.wrap = false -- display lines as one long line
+o.title = true -- display file name in the window title
+o.guifont = "JetBrainsMono Nerd Font:h11" -- font for neovide
+
 o.scrolloff = 8 -- is one of my fav
-o.sidescrolloff = 8
-o.title = true
-o.guifont = "JetBrainsMono Nerd Font:h11"
+o.sidescrolloff = 8 -- this too
 
 o.shiftwidth = 4 -- the number of spaces inserted for each indentation
 o.tabstop = 4 -- insert 4 spaces for a tab

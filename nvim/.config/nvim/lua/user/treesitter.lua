@@ -4,16 +4,17 @@ if not status_ok then
 end
 
 configs.setup {
-  sync_install = false,
-  autopairs = {
-    enable = true,
-  },
+  ensure_installed = { "lua", "rust", "toml", "comment" },
+  autopairs = { enable = true },
   highlight = {
     enable = true,
     disable = { "" },
     additional_vim_regex_highlighting = false,
   },
-  indent = { enable = true, disable = { "yaml", "rust" } },
+  indent = {
+    enable = true,
+    disable = { "yaml", "rust" },
+  },
   context_commentstring = {
     enable = true,
     enable_autocmd = false,

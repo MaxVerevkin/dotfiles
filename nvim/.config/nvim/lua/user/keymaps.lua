@@ -1,11 +1,7 @@
-local opts = { noremap = true, silent = true }
 local silent = { silent = true }
 
--- Shorten function name
-local keymap = vim.api.nvim_set_keymap
-
 --Remap space as leader key
-keymap("", "<Space>", "<Nop>", opts)
+vim.keymap.set("", "<Space>", "<Nop>", silent)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
@@ -15,6 +11,8 @@ vim.g.maplocalleader = " "
 --   visual_mode = "x",
 --   term_mode = "t",
 --   command_mode = "c",
+
+vim.keymap.set("n", "<c-d>", "<cmd>Bdelete<cr>", silent)
 
 -- Better window navigation
 vim.keymap.set("n", "<C-h>", "<C-w>h", silent)
@@ -29,8 +27,8 @@ vim.keymap.set({ "n", "t" }, "<A-h>", "<cmd>vertical resize -2<CR>", silent)
 vim.keymap.set({ "n", "t" }, "<A-l>", "<cmd>vertical resize +2<CR>", silent)
 
 -- Navigate buffers
-keymap("n", "<S-l>", ":bnext<CR>", opts)
-keymap("n", "<S-h>", ":bprevious<CR>", opts)
+vim.keymap.set("n", "<S-l>", ":bnext<CR>", silent)
+vim.keymap.set("n", "<S-h>", ":bprevious<CR>", silent)
 
 -- Map ; to :
 vim.keymap.set({ "n", "x" }, ";", ":")
@@ -38,14 +36,9 @@ vim.keymap.set({ "n", "x" }, ";", ":")
 -- Disaple search highlinting with <Esc>
 vim.keymap.set("n", "<ESC>", ":nohlsearch<CR>", silent)
 
--- Visual --
 -- Stay in indent mode
-keymap("x", "<", "<gv", opts)
-keymap("x", ">", ">gv", opts)
+vim.keymap.set("x", "<", "<gv", silent)
+vim.keymap.set("x", ">", ">gv", silent)
 
 -- Pasting w/o yanking
-keymap("x", "p", '"_dP', opts)
-
--- Move text up and down
-keymap("n", "<A-j>", "<Esc>:m .+1<CR>==gi", opts)
-keymap("n", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
+vim.keymap.set("x", "p", '"_dP', silent)

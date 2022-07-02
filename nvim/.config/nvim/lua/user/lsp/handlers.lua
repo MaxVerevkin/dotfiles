@@ -73,8 +73,6 @@ end
 M.on_attach = function(client, bufnr)
   lsp_keymaps(client, bufnr)
   require("user.autoformat").on_attach(client, bufnr)
-  require("user.nvim-navic").on_attach(client, bufnr)
-
   -- FIXME: use `pcall`
   require("lsp_signature").on_attach()
 

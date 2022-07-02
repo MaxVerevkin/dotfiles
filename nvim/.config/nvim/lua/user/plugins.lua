@@ -1,15 +1,19 @@
 -- Automatically install packer
 local install_path = vim.fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+  PACKER_BOOTSTRAP = true
   vim.fn.execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
 end
 
-local packer_group = vim.api.nvim_create_augroup("Packer", { clear = true })
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = "plugins.lua",
-  group = packer_group,
+  group = vim.api.nvim_create_augroup("Packer", { clear = true }),
   command = "source <afile> | PackerSync",
 })
+
+if PACKER_BOOTSTRAP then
+  vim.notify "hello???"
+end
 
 -- Use a protected call so we don't error out on first use
 local status_ok, packer = pcall(require, "packer")
@@ -31,7 +35,6 @@ packer.init {
 return packer.startup(function(use)
   -- My plugins here
   use "wbthomason/packer.nvim" -- Have packer manage itself
-  -- use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
   use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
   use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
   use "numToStr/Comment.nvim" -- Easily comment stuff
@@ -46,13 +49,12 @@ return packer.startup(function(use)
   use "antoinemadec/FixCursorHold.nvim" -- This is needed to fix lsp doc highlight (#12587)
   use "folke/which-key.nvim" -- a popup with possible keybindings
   use "stevearc/dressing.nvim" -- Improve the default vim.ui interfaces
+  use "matbme/JABS.nvim" -- Just Another Buffer Switcher for Neovim
 
   -- use "phaazon/hop.nvim"
   use { "ChristianChiarulli/hop.nvim", branch = "fix-pending-operation-col-increment" }
 
-  -- Status line
-  use "nvim-lualine/lualine.nvim"
-  use "SmiteshP/nvim-navic"
+  use "nvim-lualine/lualine.nvim" -- Status line
 
   -- Colorschemes
   -- use "lunarvim/colorschemes" -- A set of themes with excelent plugin support
@@ -96,7 +98,10 @@ return packer.startup(function(use)
   use {
     "j-hui/fidget.nvim",
     config = function()
-      require("fidget").setup()
+      local ok, fidget = pcall(require, "fidget")
+      if ok then
+        fidget.setup()
+      end
     end,
   }
 

@@ -93,16 +93,13 @@ local vmappings = {
   [" "] = { "<ESC><CMD>lua require('Comment.api').toggle_linewise_op(vim.fn.visualmode())<CR>", "Comment" },
 }
 local mappings = {
-  ["a"] = { "<cmd>Alpha<cr>", "Alpha" },
-  ["b"] = {
-    "<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false})<cr>",
-    "Buffers",
-  },
   [" "] = { "<cmd>lua require('Comment.api').toggle_current_linewise()<cr>", "Comment" },
+  ["a"] = { "<cmd>Alpha<cr>", "Alpha" },
+  ["b"] = { "<cmd>JABSOpen<cr>", "Buffers" },
   ["e"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
   ["w"] = { "<cmd>w!<CR>", "Save" },
   ["q"] = { "<cmd>q!<CR>", "Quit" },
-  ["c"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
+  ["c"] = { "<cmd>Bdelete<CR>", "Close Buffer" },
   ["f"] = {
     "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
     "Find files",
@@ -110,6 +107,8 @@ local mappings = {
   ["F"] = { "<cmd>Telescope live_grep theme=ivy<cr>", "Find Text" },
 
   u = { "<cmd>PackerSync<cr>", "Packer Sync" },
+
+  p = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
 
   g = {
     name = "Git",
@@ -135,7 +134,6 @@ local mappings = {
 
   l = {
     name = "LSP",
-    t = { "<cmd>TroubleToggle<cr>", "Toggle Trouble" },
     a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Actions" },
     d = { "<cmd>Telescope diagnostics<cr>", "Document Diagnostics" },
     i = { "<cmd>LspInfo<cr>", "Info" },

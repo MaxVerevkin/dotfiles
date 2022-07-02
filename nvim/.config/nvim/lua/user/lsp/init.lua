@@ -11,10 +11,6 @@ end
 lsp_installer.setup {}
 
 local function init_server(server)
-  if server == "rust_analyzer" then
-    return
-  end
-
   local opts = {
     on_attach = require("user.lsp.handlers").on_attach,
     capabilities = require("user.lsp.handlers").capabilities,
@@ -28,19 +24,23 @@ local function init_server(server)
     opts = vim.tbl_deep_extend("force", require "user.lsp.settings.openscad", opts)
   end
 
+  if server == "rust_analyzer" then
+    opts = vim.tbl_deep_extend("force", require "user.lsp.settings.rust", opts)
+    local rust_status_ok, rust_tools = pcall(require, "rust-tools")
+    if rust_status_ok then
+      rust_tools.setup {
+        server = opts,
+        tools = {
+          autoSetHints = true,
+          hover_with_actions = false,
+        },
+      }
+      return
+    end
+  end
+
   lspconfig[server].setup(opts)
 end
-
-require("rust-tools").setup {
-  server = {
-    on_attach = require("user.lsp.handlers").on_attach,
-    capabilities = require("user.lsp.handlers").capabilities,
-  },
-  tools = {
-    autoSetHints = true,
-    hover_with_actions = false,
-  },
-}
 
 for _, server in ipairs(lsp_installer.get_installed_servers()) do
   init_server(server.name)
