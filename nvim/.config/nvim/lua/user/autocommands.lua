@@ -32,23 +32,6 @@ autocmd("TextYankPost", {
 })
 
 autocmd("FileType", {
-  pattern = { "gitcommit", "markdown" },
-  group = group,
-  callback = function()
-    vim.opt_local.spell = true
-  end,
-})
-
-autocmd("FileType", {
-  pattern = { "lua" },
-  group = group,
-  callback = function()
-    vim.opt_local.shiftwidth = 2
-    vim.opt_local.tabstop = 2
-  end,
-})
-
-autocmd("FileType", {
   pattern = { "qf", "help", "man", "lspinfo" },
   group = group,
   callback = function()

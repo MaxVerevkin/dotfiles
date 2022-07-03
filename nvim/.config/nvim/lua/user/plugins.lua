@@ -49,7 +49,8 @@ return packer.startup(function(use)
   use "antoinemadec/FixCursorHold.nvim" -- This is needed to fix lsp doc highlight (#12587)
   use "folke/which-key.nvim" -- a popup with possible keybindings
   use "stevearc/dressing.nvim" -- Improve the default vim.ui interfaces
-  use "matbme/JABS.nvim" -- Just Another Buffer Switcher for Neovim
+  -- use "matbme/JABS.nvim" -- Just Another Buffer Switcher for Neovim
+  use "MaxVerevkin/JABS.nvim" -- Just Another Buffer Switcher for Neovim
 
   -- use "phaazon/hop.nvim"
   use { "ChristianChiarulli/hop.nvim", branch = "fix-pending-operation-col-increment" }
@@ -57,11 +58,12 @@ return packer.startup(function(use)
   use "nvim-lualine/lualine.nvim" -- Status line
 
   -- Colorschemes
+  use {
+    "ellisonleao/gruvbox.nvim", -- My fav theme
+    commit = "3352c12c083d0ab6285a9738b7679e24e7602411",
+  }
+  use "lunarvim/darkplus.nvim" -- A nice theme
   -- use "lunarvim/colorschemes" -- A set of themes with excelent plugin support
-  use { "ellisonleao/gruvbox.nvim" } -- My fav theme
-  -- use { "ellisonleao/gruvbox.nvim", commit = "3352c12c083d0ab6285a9738b7679e24e7602411" } -- My fav theme
-  -- use "alex-popov-tech/timer.nvim" -- For automatic theme switching
-  use "lunarvim/darkplus.nvim"
 
   -- cmp plugins
   use "hrsh7th/nvim-cmp" -- The completion plugin

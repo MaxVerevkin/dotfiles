@@ -6,4 +6,13 @@ end
 jabs.setup {
   position = "center",
   border = "none",
+  highlight = {
+    current = "StatusLine",
+    hidden = "ModeMsg",
+    split = "StatusLine",
+    alternate = "ModeMsg",
+  },
+  keymap = {
+    close = "<c-d>",
+  },
 }

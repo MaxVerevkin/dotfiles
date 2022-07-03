@@ -13,6 +13,7 @@ vim.g.maplocalleader = " "
 --   command_mode = "c",
 
 vim.keymap.set("n", "<c-d>", "<cmd>Bdelete<cr>", silent)
+vim.keymap.set("n", "=", "<cmd>JABSOpen<cr>", silent)
 
 -- Better window navigation
 vim.keymap.set("n", "<C-h>", "<C-w>h", silent)
@@ -42,3 +43,8 @@ vim.keymap.set("x", ">", ">gv", silent)
 
 -- Pasting w/o yanking
 vim.keymap.set("x", "p", '"_dP', silent)
+
+-- Changing w/o yanking
+vim.keymap.set("x", "c", '"_di', silent)
+vim.keymap.set("n", "C", '"_Da', silent)
+vim.keymap.set("n", "cc", '0"_Di', silent)
