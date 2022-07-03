@@ -31,7 +31,6 @@ ls.config.set_config {
 }
 
 vim.keymap.set({ "i", "s" }, "<c-n>", function()
-  vim.notify(vim.inspect(ls.expand_or_jumpable()))
   if ls.expand_or_jumpable() then
     ls.expand_or_jump()
   end

@@ -49,8 +49,7 @@ return packer.startup(function(use)
   use "antoinemadec/FixCursorHold.nvim" -- This is needed to fix lsp doc highlight (#12587)
   use "folke/which-key.nvim" -- a popup with possible keybindings
   use "stevearc/dressing.nvim" -- Improve the default vim.ui interfaces
-  -- use "matbme/JABS.nvim" -- Just Another Buffer Switcher for Neovim
-  use "MaxVerevkin/JABS.nvim" -- Just Another Buffer Switcher for Neovim
+  use "matbme/JABS.nvim" -- Just Another Buffer Switcher for Neovim
 
   -- use "phaazon/hop.nvim"
   use { "ChristianChiarulli/hop.nvim", branch = "fix-pending-operation-col-increment" }
@@ -107,15 +106,9 @@ return packer.startup(function(use)
   }
 
   -- Rust
-  use {
-    "saecki/crates.nvim",
-    tag = "v0.2.0",
-    event = { "BufRead Cargo.toml" },
-    config = function()
-      require("crates").setup()
-    end,
-  }
+  use "saecki/crates.nvim" -- for Crargo.toml
 
+  -- Why not
   use "seandewar/nvimesweeper"
 
   -- Automatically set up your configuration after cloning packer.nvim

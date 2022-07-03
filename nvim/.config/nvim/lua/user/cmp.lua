@@ -8,7 +8,6 @@ if not snip_status_ok then
   return
 end
 
---   פּ ﯟ   some other good icons
 local kind_icons = {
   Text = "",
   Method = "m",
@@ -36,7 +35,13 @@ local kind_icons = {
   Operator = "",
   TypeParameter = "",
 }
--- find more here: https://www.nerdfonts.com/cheat-sheet
+local source_names = {
+  nvim_lsp = "[LSP]",
+  nvim_lua = "[NVim]",
+  luasnip = "[Snip]",
+  buffer = "[Buf]",
+  path = "[Path]",
+}
 
 cmp.setup {
   snippet = {
@@ -53,7 +58,7 @@ cmp.setup {
     },
     -- Accept currently selected item. If none selected, `select` first item.
     -- Set `select` to `false` to only confirm explicitly selected items.
-    ["<CR>"] = cmp.mapping.confirm { select = true },
+    ["<c-y>"] = cmp.mapping.confirm { select = true },
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -78,25 +83,18 @@ cmp.setup {
   formatting = {
     fields = { "kind", "abbr", "menu" },
     format = function(entry, vim_item)
-      -- Kind icons
       vim_item.kind = kind_icons[vim_item.kind]
-      vim_item.menu = ({
-        nvim_lsp = "[LSP]",
-        nvim_lua = "[NVim Lua]",
-        luasnip = "[Snippet]",
-        buffer = "[Buffer]",
-        path = "[Path]",
-      })[entry.source.name]
+      vim_item.menu = source_names[entry.source.name]
       return vim_item
     end,
   },
   sources = {
     { name = "nvim_lsp" },
     { name = "luasnip" },
-    { name = "buffer" },
     { name = "path" },
     { name = "nvim_lua" },
     { name = "crates" },
+    { name = "buffer", keyword_length = 5 },
   },
   window = {
     documentation = {
