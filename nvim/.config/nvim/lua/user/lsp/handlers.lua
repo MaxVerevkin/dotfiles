@@ -62,9 +62,6 @@ local function lsp_keymaps(client, bufnr)
   keymap("n", "K", vim.lsp.buf.hover)
   keymap("n", "<A-{>", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
   keymap("n", "<A-}>", "<cmd>lua vim.diagnostic.goto_next()<CR>")
-  if client.name == "rust_analyzer" then
-    keymap("v", "K", require("rust-tools.hover_range").hover_range)
-  end
   keymap("n", "gl", function()
     vim.diagnostic.open_float(0, { border = "rounded" })
   end)
@@ -73,8 +70,6 @@ end
 M.on_attach = function(client, bufnr)
   lsp_keymaps(client, bufnr)
   require("user.autoformat").on_attach(client, bufnr)
-  -- FIXME: use `pcall`
-  require("lsp_signature").on_attach()
 
   if client.server_capabilities.documentHighlightProvider then
     lsp_highlight_document()

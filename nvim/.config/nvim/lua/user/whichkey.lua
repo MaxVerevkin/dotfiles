@@ -163,6 +163,11 @@ local mappings = {
     h = { "<cmd>ToggleTerm size=10 direction=horizontal<cr>", "Horizontal" },
     v = { "<cmd>ToggleTerm size=80 direction=vertical<cr>", "Vertical" },
   },
+
+  o = {
+    name = "Other",
+    c = { "<cmd>e ~/.config/nvim/init.lua<cr>", "Open Config" },
+  },
 }
 
 which_key.setup(setup)

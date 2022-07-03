@@ -80,7 +80,6 @@ return packer.startup(function(use)
   use "neovim/nvim-lspconfig" -- enable LSP
   use "williamboman/nvim-lsp-installer" -- simple to use language server installer
   use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
-  use "ray-x/lsp_signature.nvim"
 
   -- Telescope
   use "nvim-telescope/telescope.nvim"
@@ -114,8 +113,6 @@ return packer.startup(function(use)
       require("crates").setup()
     end,
   }
-  use "simrat39/rust-tools.nvim"
-  -- use "Avimitin/rust-tools.nvim"
 
   use "seandewar/nvimesweeper"
 

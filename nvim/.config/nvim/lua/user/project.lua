@@ -42,8 +42,6 @@ project.setup {
 }
 
 local tele_status_ok, telescope = pcall(require, "telescope")
-if not tele_status_ok then
-  return
+if tele_status_ok then
+  telescope.load_extension "projects"
 end
-
-telescope.load_extension "projects"
