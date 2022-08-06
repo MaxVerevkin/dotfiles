@@ -1,46 +1,54 @@
-icons = "material-nf"
-# icons_format = " <span font_family='NotoSans Nerd Font'>{icon}</span> "
-
 double_click_delay = 0
 
-# Minimalistic gruvbox-dark variant
-[theme]
-name = "native"
-[theme.overrides]
-idle_fg = "#ebdbb2"
-info_fg = "#458588"
-good_fg = "#8ec07c"
-warning_fg = "#fabd2f"
-critical_fg = "#fb4934"
-# theme = "slick"
+[icons]
+# icons = "material-nf"
+name = "material-nf"
 
-# [[block]]
-# block = "networkmanager"
+# Minimalistic gruvbox-dark variant
+# [theme]
+# name = "native"
+# [theme.overrides]
+# idle_fg = "#ebdbb2"
+# info_fg = "#458588"
+# good_fg = "#8ec07c"
+# warning_fg = "#fabd2f"
+# critical_fg = "#fb4934"
+
+# Slick
+[theme]
+# theme = "slick"
+name = "slick"
+[theme.overrides]
+separator = "native"
+alternating_tint_bg = "none"
+alternating_tint_fg = "none"
 
 [[block]]
 block = "hueshift"
 hue_shifter = "wl_gammarelay_rs"
 
+[[block]]
+block = "focused_window"
+driver = "auto"
+[block.format]
+full = "$title.rot-str(23, 0.5)"
+short = "$title.rot-str(13, 0.5)"
+
 # [[block]]
-# block = "focused_window"
+# block = "weather"
+# format = "$temp"
+# autolocate = true
+# [block.service]
+# name = "metno"
+
+[[block]]
+block = "pacman"
+hide_when_uptodate = true
 
 [[block]]
 block = "github"
 hide_if_total_is_zero = true
 interval = 60
-
-# [[block]]
-# block = "pacman"
-# warning_updates_regex = "linux"
-# hide_when_uptodate = true
-
-# [[block]]
-# block = "kdeconnect"
-# format = "$bat_icon $bat_charge{ $notif_icon|}"
-# bat_good = 101
-
-# [[block]]
-# block = "notify"
 
 [[block]]
 block = "bluetooth"
@@ -54,9 +62,8 @@ block = "net"
 device = "wlp3s0"
 format_alt = "{$ssid $frequency.eng(3) |}$device"
 [block.format]
-full = "{$signal|}$speed_down.eng(3,auto,K)$speed_up.eng(3,auto,K)"
-# full = "{$signal |}$graph_down$speed_down.eng(3,auto,K)$speed_up.eng(3,auto,K)"
-short = "$signal|"
+full = "{$signal_strength|}$speed_down.eng(3,auto,K)$speed_up.eng(3,auto,K)"
+short = "$signal_strength|"
 
 [[block]]
 block = "disk_space"
@@ -65,12 +72,17 @@ alert_unit = "GB"
 alert = 10.0
 warning = 15.0
 format = "$available"
+[[block.click]]
+button = "right"
+update = true
 
 [[block]]
 block = "cpu"
-format = "$barchart $utilization"
 format_alt = "$frequency.eng(3,auto, M) \\|$boost"
 interval = 1
+[block.format]
+full = "$barchart $utilization"
+short = "$utilization"
 
 [[block]]
 block = "memory"
@@ -79,6 +91,7 @@ clickable = false
 
 [[block]]
 block = "temperature"
+collapsed = false
 format = "$average|"
 chip = "*-isa-*"
 inputs = ["Core 0", "Core 1"]
@@ -86,46 +99,38 @@ inputs = ["Core 0", "Core 1"]
 [[block]]
 block = "sound"
 driver = "pulseaudio"
-format = "$volume.bar(4) $volume|"
+[block.format]
+full = "$volume.bar(4) $volume|"
+short = "$volume|"
 [[block.click]]
 button = "left"
 cmd = "pavucontrol"
 
-[[block]]
-block = "music"
-hide_when_empty = true
-[block.format]
-full = "$combo.rot-str(20, 0.5) $prev $play $next|"
-short = "$combo.rot-str(15, 0.5) $play|"
-
 # [[block]]
-# block = "taskwarrior"
-# format = "$done|$count.eng(1)"
-
-# [[block]]
-# block = "keyboard_layout"
-# driver = "sway"
-# [block.mappings]
-# "English (Workman)" = "EN"
-# "Russian (N/A)" = "RU"
+# block = "music"
+# hide_when_empty = true
+# [block.format]
+# full = "$combo.rot-str(25, 0.5)$prev$play$next|"
+# short = "$combo.rot-str(15, 0.5)$play|"
 
 [[block]]
 block = "time"
 icons_format = ""
-interval = 5
 [block.format]
 full = "%d/%m %R"
 short = "%R"
-[[block.click]]
-button = "double_left"
-cmd = "baobab"
 
 [[block]]
 block = "menu"
-text = "\uf011 "
+text = "\uf011"
 [[block.items]]
-display = "-&gt;   Sleep   &lt;-"
+display = " -&gt;   Sleep   &lt;-"
 cmd = "systemctl suspend"
 [[block.items]]
-display = "-&gt; Power Off &lt;-"
+display = " -&gt; Power Off &lt;-"
 cmd = "poweroff"
+confirm_msg = "Are you sure you want to power off?"
+[[block.items]]
+display = " -&gt;  Reboot   &lt;-"
+cmd = "reboot"
+confirm_msg = "Are you sure you want to reboot?"
