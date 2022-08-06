@@ -1,213 +1,130 @@
-local colors = {
-  bg = "#202328",
-  fg = "#bbc2cf",
-  yellow = "#ECBE7B",
-  cyan = "#008080",
-  darkblue = "#081633",
-  green = "#98be65",
-  orange = "#FF8800",
-  violet = "#a9a1e1",
-  magenta = "#c678dd",
-  purple = "#c678dd",
-  blue = "#51afef",
-  red = "#ec5f67",
-}
-
 local status_ok, lualine = pcall(require, "lualine")
 if not status_ok then
   return
 end
 
-local status_theme_ok, theme = pcall(require, "lualine.themes.darkplus_dark")
-if not status_theme_ok then
-  return
-end
-
-vim.api.nvim_set_hl(0, "SLGitIcon", { fg = "#E8AB53", bg = "#303030" })
-vim.api.nvim_set_hl(0, "SLBranchName", { fg = "#D4D4D4", bg = "#303030", bold = false })
--- vim.api.nvim_set_hl(0, "SLProgress", { fg = "#D7BA7D", bg = "#252525" })
-vim.api.nvim_set_hl(0, "SLProgress", { fg = "#D4D4D4", bg = "#303030" })
-vim.api.nvim_set_hl(0, "SLSeparator", { fg = "#808080", bg = "#252525" })
-local mode_color = {
-  n = "#569cd6",
-  i = "#6a9955",
-  v = "#c586c0",
-  [""] = "#c586c0",
-  V = "#c586c0",
-  -- c = '#B5CEA8',
-  -- c = '#D7BA7D',
-  c = "#4EC9B0",
-  no = "#569cd6",
-  s = "#ce9178",
-  S = "#ce9178",
-  [""] = "#ce9178",
-  ic = "#dcdcaa",
-  R = "#d16969",
-  Rv = "#d16969",
-  cv = "#569cd6",
-  ce = "#569cd6",
-  r = "#d16969",
-  rm = "#4EC9B0",
-  ["r?"] = "#4EC9B0",
-  ["!"] = "#4EC9B0",
-  t = "#D7BA7D",
-}
-
-local mode = {
-  -- mode component
-  function()
-    return "▊"
-  end,
-  color = function()
-    -- auto change color according to neovims mode
-    return { fg = mode_color[vim.fn.mode()] }
-  end,
-  -- padding = { right = 1 },
-  padding = 0,
-}
-
-local hide_in_width = function()
-  return vim.fn.winwidth(0) > 80
-end
-
-local icons = require "user.icons"
-
 local diagnostics = {
   "diagnostics",
   sources = { "nvim_diagnostic" },
   sections = { "error", "warn" },
-  symbols = { error = icons.diagnostics.Error .. " ", warn = icons.diagnostics.Warning .. " " },
-  colored = false,
-  update_in_insert = false,
-  always_visible = true,
+  update_in_insert = true,
 }
 
-local diff = {
-  "diff",
-  colored = false,
-  symbols = { added = icons.git.Add .. " ", modified = icons.git.Mod .. " ", removed = icons.git.Remove .. " " }, -- changes diff symbols
-  cond = hide_in_width,
-  separator = "%#SLSeparator#" .. "│ " .. "%*",
-}
-
--- local mode = {
---   "mode",
---   fmt = function(str)
---     return "-- " .. str .. " --"
---   end,
--- }
-
-local filetype = {
-  "filetype",
-  icons_enabled = true,
-  -- icon = nil,
-}
-
-local branch = {
-  "branch",
-  icons_enabled = true,
-  icon = "%#SLGitIcon#" .. "" .. "%*" .. "%#SLBranchName#",
-  -- color = "Constant",
-  colored = false,
-}
-
-local progress = {
-  "progress",
-  color = "SLProgress",
-  -- fmt = function(str)
-  --   print(vim.fn.expand(str))
-  --   if str == "1%" then
-  --     return "TOP"
-  --   end
-  --   if str == "100%" then
-  --     return "BOT"
-  --   end
-  --   return str
-  -- end,
-  -- padding = 0,
-}
-
--- local progress = {
---   "progress",
---   fmt = function(str)
---     print(vim.fn.expand(str))
---     if str == "1%" then
---       return "TOP"
---     end
---     if str == "100%" then
---       return "BOT"
---     end
---     return str
---   end,
---   -- padding = 0,
--- }
-
--- cool function for progress
--- local progress = function()
---   local current_line = vim.fn.line "."
---   local total_lines = vim.fn.line "$"
---   local chars = { "__", "▁▁", "▂▂", "▃▃", "▄▄", "▅▅", "▆▆", "▇▇", "██" }
---   local line_ratio = current_line / total_lines
---   local index = math.ceil(line_ratio * #chars)
---   -- return chars[index]
---   return "%#SLProgress#" .. chars[index] .. "%*"
--- end
-
-local spaces = {
-  function()
-    return "spaces: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
-  end,
-  padding = 0,
-  separator = "%#SLSeparator#" .. " │" .. "%*",
-}
-
-local location = {
-  "location",
-  color = function()
-    return { fg = "#252525", bg = mode_color[vim.fn.mode()] }
-  end,
-}
-
-local treesitter = {
-  function()
-    local b = vim.api.nvim_get_current_buf()
-    if next(vim.treesitter.highlighter.active[b]) then
-      return ""
+local function gen_colorscheme()
+  local normal = vim.api.nvim_get_hl_by_name("Normal", {})
+  local function get_hl(name)
+    local hl = vim.api.nvim_get_hl_by_name(name, {})
+    local bg = string.format("#%06x", hl.background or normal.background)
+    local fg = string.format("#%06x", hl.foreground or normal.foreground)
+    if not hl.reverse then
+      return { fg = fg, bg = bg }
+    else
+      return { fg = bg, bg = fg }
     end
-    return ""
-  end,
-  color = { fg = colors.green },
-  cond = hide_in_width,
-  separator = "%#SLSeparator#" .. " │" .. "%*",
-}
+  end
 
-lualine.setup {
-  options = {
-    globalstatus = true,
-    icons_enabled = true,
-    -- theme = "auto",
-    theme = theme,
-    component_separators = { left = "", right = "" },
-    section_separators = { left = "", right = "" },
-    disabled_filetypes = { "alpha", "dashboard" },
-    always_divide_middle = true,
-  },
-  sections = {
-    lualine_a = { mode, branch },
-    lualine_b = { diagnostics },
-    lualine_c = {},
-    lualine_x = { treesitter, diff, spaces, filetype },
-    lualine_y = { progress },
-    lualine_z = { location },
-  },
-  inactive_sections = {
-    lualine_a = {},
-    lualine_b = {},
-    lualine_c = {},
-    lualine_x = { "location" },
-    lualine_y = {},
-    lualine_z = {},
-  },
-  tabline = {},
-  extensions = {},
-}
+  local statusline_nc = get_hl "StatusLineNC"
+  local status_line = get_hl "StatusLine"
+  local insert = get_hl "PmenuSel"
+  local visual = get_hl "healthSuccess"
+
+  statusline_nc.gui = "bold"
+  insert.gui = "bold"
+  visual.gui = "bold"
+
+  local M = {
+    normal = {
+      a = statusline_nc,
+      b = status_line,
+      c = { bg = nil, fg = nil },
+    },
+    insert = {
+      a = insert,
+      b = status_line,
+      c = { bg = nil, fg = nil },
+    },
+    visual = {
+      a = visual,
+      b = status_line,
+      c = { bg = nil, fg = nil },
+    },
+  }
+
+  M.inactive = M.normal
+  M.command = M.insert
+  M.replace = M.insert
+  M.terminal = M.insert
+
+  return M
+end
+
+local function setup()
+  lualine.setup {
+    options = {
+      globalstatus = true,
+      icons_enabled = true,
+      theme = gen_colorscheme(),
+      disabled_filetypes = {
+        statusline = { "alpha", "dashboard" },
+        -- winbar = {
+        --   "",
+        --   "alpha",
+        --   "help",
+        --   "packer",
+        --   "NvimTree",
+        --   "TelescopePrompt",
+        --   "toggleterm",
+        --   "DressingInput",
+        --   "JABSwindow",
+        -- },
+      },
+      always_divide_middle = true,
+      section_separators = { left = "", right = "" },
+      component_separators = { left = "", right = "" },
+    },
+    sections = {
+      lualine_a = { { "mode", separator = { right = "" } } },
+      lualine_b = { { "branch", icon = "" }, "diff" },
+      lualine_c = {},
+      lualine_x = {},
+      lualine_y = { diagnostics, "filetype", "progress" },
+      lualine_z = { { "location", separator = { left = "" }, padding = 0 } },
+    },
+    inactive_sections = {
+      lualine_a = {},
+      lualine_b = {},
+      lualine_c = {},
+      lualine_x = {},
+      lualine_y = {},
+      lualine_z = {},
+    },
+    -- winbar = {
+    --   lualine_a = {},
+    --   lualine_b = {},
+    --   lualine_c = { "filename" },
+    --   lualine_x = {},
+    --   lualine_y = {},
+    --   lualine_z = {},
+    -- },
+    -- inactive_winbar = {
+    --   lualine_a = {},
+    --   lualine_b = {},
+    --   lualine_c = { "filename" },
+    --   lualine_x = {},
+    --   lualine_y = {},
+    --   lualine_z = {},
+    -- },
+    tabline = {},
+    extensions = {},
+  }
+end
+
+vim.schedule(function()
+  setup()
+  vim.api.nvim_create_autocmd("ColorScheme", {
+    group = vim.api.nvim_create_augroup("setup_lualine", {}),
+    callback = function()
+      setup()
+    end,
+  })
+end)

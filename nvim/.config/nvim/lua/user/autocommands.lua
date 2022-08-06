@@ -35,6 +35,6 @@ autocmd("FileType", {
   pattern = { "qf", "help", "man", "lspinfo" },
   group = group,
   callback = function()
-    vim.cmd [[nnoremap <silent> <buffer> q :close<CR>]]
+    vim.keymap.set("n", "q", "<cmd>q<cr>", { buffer = 0 })
   end,
 })

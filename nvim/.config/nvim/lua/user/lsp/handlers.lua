@@ -15,6 +15,7 @@ M.setup = function()
   vim.diagnostic.config {
     -- disable virtual text
     virtual_text = false,
+    virtual_lines = false,
     -- show signs
     signs = { active = signs },
     update_in_insert = true,
@@ -37,43 +38,26 @@ M.setup = function()
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
     border = "rounded",
   })
-end
 
-local function lsp_highlight_document()
-  vim.api.nvim_exec(
-    [[
-    augroup lsp_document_highlight
-      autocmd! * <buffer>
-      autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-      autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-    augroup END
-  ]],
-    false
-  )
-end
-
-local function lsp_keymaps(client, bufnr)
-  local keymap = function(mode, key, cmd)
-    vim.keymap.set(mode, key, cmd, { buffer = bufnr, silent = true })
-  end
-  keymap("n", "gd", "<cmd>Telescope lsp_definitions<cr>")
-  keymap("n", "gr", "<cmd>Telescope lsp_references<cr>")
-  keymap("n", "gi", "<cmd>Telescope lsp_implementations<cr>")
-  keymap("n", "K", vim.lsp.buf.hover)
-  keymap("n", "<A-{>", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
-  keymap("n", "<A-}>", "<cmd>lua vim.diagnostic.goto_next()<CR>")
-  keymap("n", "gl", function()
-    vim.diagnostic.open_float(0, { border = "rounded" })
-  end)
-end
-
-M.on_attach = function(client, bufnr)
-  lsp_keymaps(client, bufnr)
-  require("user.autoformat").on_attach(client, bufnr)
-
-  if client.server_capabilities.documentHighlightProvider then
-    lsp_highlight_document()
-  end
+  vim.api.nvim_create_autocmd("LspAttach", {
+    group = vim.api.nvim_create_augroup("CustomLspOnAttach", {}),
+    callback = function(args)
+      local client = vim.lsp.get_client_by_id(args.data.client_id)
+      if client.server_capabilities.documentHighlightProvider then
+        local group = vim.api.nvim_create_augroup("LspDocHighlight" .. args.buf, {})
+        vim.api.nvim_create_autocmd("CursorHold", {
+          group = group,
+          buffer = args.buf,
+          callback = vim.lsp.buf.document_highlight,
+        })
+        vim.api.nvim_create_autocmd("CursorMoved", {
+          group = group,
+          buffer = args.buf,
+          callback = vim.lsp.buf.clear_references,
+        })
+      end
+    end,
+  })
 end
 
 M.capabilities = vim.lsp.protocol.make_client_capabilities()

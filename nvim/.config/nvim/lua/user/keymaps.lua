@@ -1,10 +1,3 @@
-local silent = { silent = true }
-
---Remap space as leader key
-vim.keymap.set("", "<Space>", "<Nop>", silent)
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
 -- Modes
 --   normal_mode = "n",
 --   insert_mode = "i",
@@ -12,8 +5,17 @@ vim.g.maplocalleader = " "
 --   term_mode = "t",
 --   command_mode = "c",
 
+local silent = { silent = true }
+
+-- Space as leader key
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+-- Close current buffer
 vim.keymap.set("n", "<c-d>", "<cmd>Bdelete<cr>", silent)
-vim.keymap.set("n", "=", "<cmd>JABSOpen<cr>", silent)
+
+-- Show open buffers
+vim.keymap.set("n", "=", "<cmd>Telescope buffers<cr>", silent)
 
 -- Better window navigation
 vim.keymap.set("n", "<C-h>", "<C-w>h", silent)
@@ -41,10 +43,23 @@ vim.keymap.set("n", "<ESC>", ":nohlsearch<CR>", silent)
 vim.keymap.set("x", "<", "<gv", silent)
 vim.keymap.set("x", ">", ">gv", silent)
 
--- Pasting w/o yanking
-vim.keymap.set("x", "p", '"_dP', silent)
+-- LSP sepecific keymaps
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("InitLspKeymaps", {}),
+  callback = function(args)
+    local opts = { buffer = args.buf, silent = true }
+    vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<cr>", opts)
+    vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<cr>", opts)
+    vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<cr>", opts)
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+    vim.keymap.set("n", "<A-{>", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+    vim.keymap.set("n", "<A-}>", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 
--- Changing w/o yanking
-vim.keymap.set("x", "c", '"_di', silent)
-vim.keymap.set("n", "C", '"_Da', silent)
-vim.keymap.set("n", "cc", '0"_Di', silent)
+    local lines_ok, lsp_lines = pcall(require, "lsp_lines")
+    if lines_ok then
+      vim.keymap.set("n", "gl", lsp_lines.toggle, opts)
+    else
+      vim.keymap.set("n", "gl", vim.diagnostic.open_float, opts)
+    end
+  end,
+})

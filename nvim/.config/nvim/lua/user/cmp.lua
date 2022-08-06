@@ -46,39 +46,19 @@ local source_names = {
 cmp.setup {
   snippet = {
     expand = function(args)
-      luasnip.lsp_expand(args.body) -- For `luasnip` users.
+      luasnip.lsp_expand(args.body)
     end,
   },
   mapping = {
-    ["<C-k>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
-    ["<C-j>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
+    ["<c-y>"] = cmp.mapping.confirm { select = true },
+    ["<C-k>"] = cmp.mapping.scroll_docs(-1),
+    ["<C-j>"] = cmp.mapping.scroll_docs(1),
+    ["<Tab>"] = cmp.mapping.select_next_item(),
+    ["<S-Tab>"] = cmp.mapping.select_prev_item(),
     ["<C-e>"] = cmp.mapping {
       i = cmp.mapping.abort(),
       c = cmp.mapping.close(),
     },
-    -- Accept currently selected item. If none selected, `select` first item.
-    -- Set `select` to `false` to only confirm explicitly selected items.
-    ["<c-y>"] = cmp.mapping.confirm { select = true },
-    ["<Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      else
-        fallback()
-      end
-    end, {
-      "i",
-      "s",
-    }),
-    ["<S-Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      else
-        fallback()
-      end
-    end, {
-      "i",
-      "s",
-    }),
   },
   formatting = {
     fields = { "kind", "abbr", "menu" },
@@ -94,12 +74,11 @@ cmp.setup {
     { name = "path" },
     { name = "nvim_lua" },
     { name = "crates" },
-    { name = "buffer", keyword_length = 5 },
+    { name = "buffer", keyword_length = 3 },
   },
   window = {
-    documentation = {
-      border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-    },
+    documentation = { border = "rounded" },
+    completion = { border = "rounded" },
   },
   experimental = {
     ghost_text = true,

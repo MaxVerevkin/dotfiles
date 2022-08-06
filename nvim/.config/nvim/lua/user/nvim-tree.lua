@@ -12,9 +12,10 @@ nvim_tree.setup {
   sync_root_with_cwd = true,
   filters = {
     custom = { "^\\.git" },
-    exclude = { ".gitignore" },
+    exclude = { ".gitignore", ".github" },
   },
   renderer = {
+    group_empty = true,
     root_folder_modifier = ":t",
     icons = {
       glyphs = {

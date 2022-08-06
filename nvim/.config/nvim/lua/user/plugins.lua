@@ -1,19 +1,14 @@
--- Automatically install packer
+-- Automatically install packerplug
 local install_path = vim.fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  PACKER_BOOTSTRAP = true
   vim.fn.execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
 end
 
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = "plugins.lua",
-  group = vim.api.nvim_create_augroup("Packer", { clear = true }),
-  command = "source <afile> | PackerSync",
+  group = vim.api.nvim_create_augroup("Packer", {}),
+  command = "source <afile> | PackerCompile",
 })
-
-if PACKER_BOOTSTRAP then
-  vim.notify "hello???"
-end
 
 -- Use a protected call so we don't error out on first use
 local status_ok, packer = pcall(require, "packer")
@@ -23,10 +18,9 @@ end
 
 -- Have packer use a popup window
 packer.init {
-  -- snapshot = "it-works",
   display = {
     open_fn = function()
-      return require("packer.util").float { border = "none" }
+      return require("packer.util").float { border = "rounded" }
     end,
   },
 }
@@ -49,20 +43,13 @@ return packer.startup(function(use)
   use "antoinemadec/FixCursorHold.nvim" -- This is needed to fix lsp doc highlight (#12587)
   use "folke/which-key.nvim" -- a popup with possible keybindings
   use "stevearc/dressing.nvim" -- Improve the default vim.ui interfaces
-  use "matbme/JABS.nvim" -- Just Another Buffer Switcher for Neovim
-
-  -- use "phaazon/hop.nvim"
-  use { "ChristianChiarulli/hop.nvim", branch = "fix-pending-operation-col-increment" }
+  use "phaazon/hop.nvim" -- Neovim motions on speed!
 
   use "nvim-lualine/lualine.nvim" -- Status line
 
   -- Colorschemes
-  use {
-    "ellisonleao/gruvbox.nvim", -- My fav theme
-    commit = "3352c12c083d0ab6285a9738b7679e24e7602411",
-  }
-  use "lunarvim/darkplus.nvim" -- A nice theme
-  -- use "lunarvim/colorschemes" -- A set of themes with excelent plugin support
+  use "~/nvim-plugin-dev/gruvbox.nvim"
+  use "lunarvim/colorschemes" -- A set of themes with excelent plugin support
 
   -- cmp plugins
   use "hrsh7th/nvim-cmp" -- The completion plugin
@@ -79,8 +66,21 @@ return packer.startup(function(use)
 
   -- LSP
   use "neovim/nvim-lspconfig" -- enable LSP
-  use "williamboman/nvim-lsp-installer" -- simple to use language server installer
   use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
+  use "williamboman/mason.nvim" -- LSP and DAP package manager
+  use "williamboman/mason-lspconfig.nvim" -- Mason lspconfig integration
+  use "lvimuser/lsp-inlayhints.nvim" -- Inlay hints
+  use {
+    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    config = function()
+      require("lsp_lines").setup()
+    end,
+  }
+
+  -- DAP
+  use "mfussenegger/nvim-dap"
+  use "rcarriga/nvim-dap-ui"
+  use "theHamsta/nvim-dap-virtual-text"
 
   -- Telescope
   use "nvim-telescope/telescope.nvim"
@@ -91,6 +91,7 @@ return packer.startup(function(use)
     run = ":TSUpdate",
   }
   use "nvim-treesitter/playground"
+  use "SmiteshP/nvim-gps"
 
   -- Git
   use "lewis6991/gitsigns.nvim"
@@ -110,10 +111,4 @@ return packer.startup(function(use)
 
   -- Why not
   use "seandewar/nvimesweeper"
-
-  -- Automatically set up your configuration after cloning packer.nvim
-  -- Put this at the end after all plugins
-  if PACKER_BOOTSTRAP then
-    require("packer").sync()
-  end
 end)

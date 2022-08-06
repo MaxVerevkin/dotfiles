@@ -95,20 +95,18 @@ local vmappings = {
 local mappings = {
   [" "] = { "<cmd>lua require('Comment.api').toggle_current_linewise()<cr>", "Comment" },
   ["a"] = { "<cmd>Alpha<cr>", "Alpha" },
-  ["b"] = { "<cmd>JABSOpen<cr>", "Buffers" },
   ["e"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
   ["w"] = { "<cmd>w!<CR>", "Save" },
   ["q"] = { "<cmd>q!<CR>", "Quit" },
   ["c"] = { "<cmd>Bdelete<CR>", "Close Buffer" },
-  ["f"] = {
-    "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
-    "Find files",
-  },
-  ["F"] = { "<cmd>Telescope live_grep theme=ivy<cr>", "Find Text" },
+  ["f"] = { "<cmd>Telescope find_files<cr>", "Find files" },
+  ["F"] = { "<cmd>Telescope live_grep<cr>", "Find Text" },
 
   u = { "<cmd>PackerSync<cr>", "Packer Sync" },
 
   p = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
+
+  b = { require("lsp_lines").toggle, "Toggle diagnostics" },
 
   g = {
     name = "Git",
@@ -137,12 +135,22 @@ local mappings = {
     a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Actions" },
     d = { "<cmd>Telescope diagnostics<cr>", "Document Diagnostics" },
     i = { "<cmd>LspInfo<cr>", "Info" },
-    I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
+    I = { "<cmd>Mason<cr>", "Installer Info" },
     l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
     r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
     s = { "<cmd>LspRestart<cr>", "Restart Server" },
     f = { "<cmd>lua require('user.autoformat').toggle()<cr>", "Toggle Autoformat" },
   },
+
+  d = {
+    name = "Debug",
+    b = { "<cmd>lua require('dap').toggle_breakpoint()<cr>", "Toggle Breakpoint" },
+    d = { "<cmd>lua require('dap').continue()<cr>", "Launch or Resume" },
+    j = { "<cmd>lua require('dap').step_over()<cr>", "Step Over" },
+    i = { "<cmd>lua require('dap').step_into()<cr>", "Step Into" },
+    r = { "<cmd>lua require('dap').repl_open()<cr>", "REPL" },
+  },
+
   s = {
     name = "Search",
     b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
@@ -167,6 +175,7 @@ local mappings = {
   o = {
     name = "Other",
     c = { "<cmd>e ~/.config/nvim/init.lua<cr>", "Open Config" },
+    s = { "<cmd>exec 'source '.bufname('%')<cr>", "Source Current File" },
   },
 }
 

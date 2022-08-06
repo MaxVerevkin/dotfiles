@@ -1,11 +1,12 @@
 -- Improve startup time
-local _, _ = pcall(require, "impatient")
+pcall(require, "impatient")
 
 -- Load all the plugins and options
 require "user.options"
 require "user.keymaps"
 require "user.plugins"
 require "user.colorscheme"
+require("user.autoformat").setup()
 require "user.cmp"
 require "user.telescope"
 require "user.lsp"
@@ -20,9 +21,13 @@ require "user.indentline"
 require "user.alpha"
 require "user.whichkey"
 require "user.autocommands"
-require "user.winbar"
+-- require "user.winbar"
 require "user.hop"
 require "user.luasnip"
-require "user.jabs"
 require "user.crates"
 require "user.comment"
+require "user.gps"
+require "user.dap"
+require "user.dressing"
+require "user.mason"
+require "user.inlayhints"

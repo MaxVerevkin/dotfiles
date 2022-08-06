@@ -1,6 +1,6 @@
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local _enabled = {}
-local _ignored = { "tsserver", "sumneko_lua", "openscad_ls" }
+local _ignored = { "tsserver", "sumneko_lua", "openscad_ls", "clangd" }
 
 local function is_enabled(bufnr)
   return vim.tbl_contains(_enabled, bufnr)
@@ -33,12 +33,18 @@ end
 
 local M = {}
 
-function M.on_attach(client, bufnr)
-  if client.supports_method "textDocument/formatting" then
-    if not is_enabled(bufnr) and is_not_ignored(client) then
-      enable(bufnr)
-    end
-  end
+function M.setup()
+  vim.api.nvim_create_autocmd("LspAttach", {
+    group = vim.api.nvim_create_augroup("InitUserAutoformat", {}),
+    callback = function(args)
+      local client = vim.lsp.get_client_by_id(args.data.client_id)
+      if client.supports_method "textDocument/formatting" then
+        if not is_enabled(args.buf) and is_not_ignored(client) then
+          enable(args.buf)
+        end
+      end
+    end,
+  })
 end
 
 function M.toggle()
