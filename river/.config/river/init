@@ -1,0 +1,143 @@
+#!/bin/sh
+
+dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=river
+
+riverctl spawn i3bar-river
+riverctl spawn udiskie
+
+alias map='riverctl map -layout 0'
+alias map-ru='riverctl map -layout 1'
+
+riverctl input pointer-1267-12541-ELAN071A:00_04F3:30FD_Touchpad tap enabled
+riverctl input pointer-1267-12541-ELAN071A:00_04F3:30FD_Touchpad natural-scroll enabled
+
+riverctl focus-follows-cursor normal
+
+map normal Super+Shift Q close
+map normal Super+Shift O spawn 'toggle-laptop-display.sh'
+map normal Super+Shift N spawn 'wifi_toggle.sh'
+map normal Super+Shift Z spawn 'systemctl suspend'
+
+map normal Super Return spawn kitty
+# map normal Super Return spawn alacritty
+map normal Super B spawn 'bemenu-run -b -l 5'
+map normal Super C spawn 'killall -s USR2 i3status-rs'
+
+map normal Super N spawn 'alacritty --class nmtui-connect-applet -e nmtui-connect'
+
+map normal None Print spawn 'grim -g "$(slurp)" - | swappy -f -'
+
+map normal XF86AudioPrev focus-previous-tags
+
+# Super+Shift+E to exit river
+map normal Super+Shift E exit
+
+# Super+J and Super+K to focus the next/previous view in the layout stack
+map normal Super J focus-view next
+map normal Super K focus-view previous
+
+# Super+Shift+J and Super+Shift+K to swap the focused view with the next/previous
+# view in the layout stack
+map normal Super+Shift J swap next
+map normal Super+Shift K swap previous
+
+# Super+Period and Super+Comma to focus the next/previous output
+map normal Super Period focus-output next
+map normal Super Comma focus-output previous
+
+# Super+Shift+{Period,Comma} to send the focused view to the next/previous output
+map normal Super+Shift Period send-to-output next
+map normal Super+Shift Comma send-to-output previous
+
+# Super+Shift+Return to bump the focused view to the top of the layout stack
+map normal Super+Shift Return zoom
+
+map -repeat normal Super H send-layout-cmd luatile "main_ratio_inc(-0.005)"
+map -repeat normal Super L send-layout-cmd luatile "main_ratio_inc(0.005)"
+map -repeat normal Super+Shift H send-layout-cmd luatile "gaps_inc(-2)"
+map -repeat normal Super+Shift L send-layout-cmd luatile "gaps_inc(2)"
+
+# Super+Alt+{H,J,K,L} to move views
+map normal Super+Alt H move left 100
+map normal Super+Alt J move down 100
+map normal Super+Alt K move up 100
+map normal Super+Alt L move right 100
+
+# Super+Alt+Control+{H,J,K,L} to snap views to screen edges
+map normal Super+Alt+Control H snap left
+map normal Super+Alt+Control J snap down
+map normal Super+Alt+Control K snap up
+map normal Super+Alt+Control L snap right
+
+# Super+Alt+Shif+{H,J,K,L} to resize views
+map normal Super+Alt+Shift H resize horizontal -100
+map normal Super+Alt+Shift J resize vertical 100
+map normal Super+Alt+Shift K resize vertical -100
+map normal Super+Alt+Shift L resize horizontal 100
+
+riverctl hide-cursor when-typing enabled
+riverctl map-pointer normal Super BTN_LEFT move-view
+riverctl map-pointer normal Super BTN_RIGHT resize-view
+
+for i in {0..8}; do
+    tags=$((1 << i))
+    key=$((i + 1))
+    map-ru normal Super               $key set-focused-tags $tags
+    map-ru normal Super+Shift         $key set-view-tags $tags
+    map-ru normal Super+Control       $key toggle-focused-tags $tags
+    map-ru normal Super+Shift+Control $key toggle-view-tags $tags
+done
+
+# Super+0 to focus all tags
+# Super+Shift+0 to tag focused view with all tags
+all_tags=$(((1 << 31) - 1))
+map-ru normal Super 0 set-focused-tags $all_tags
+map-ru normal Super+Shift 0 set-view-tags $all_tags
+
+map normal Super T toggle-focused-tags $((1<<31))
+map normal Super+Shift T toggle-view-tags $((1<<31))
+
+# Super+Space to toggle float
+map normal Super Space toggle-float
+
+# Super+F to toggle fullscreen
+map normal Super F toggle-fullscreen
+
+# Declare a passthrough mode. This mode has only a single mapping to return to
+# normal mode. This makes it useful for testing a nested wayland compositor
+riverctl declare-mode passthrough
+
+# Super+F11 to enter passthrough mode
+map normal Super F11 enter-mode passthrough
+
+# Super+F11 to return to normal mode
+map passthrough Super F11 enter-mode normal
+
+# Various media key mapping examples for both normal and locked mode which do
+# not have a modifier
+for mode in normal locked
+do
+    map $mode None XF86AudioRaiseVolume spawn 'pamixer -i 5'
+    map $mode None XF86AudioLowerVolume spawn 'pamixer -d 5'
+    map $mode None XF86AudioMute        spawn 'pamixer --toggle-mute'
+
+    map $mode None XF86AudioMedia spawn 'playerctl play-pause'
+    map $mode None XF86AudioPlay  spawn 'playerctl play-pause'
+    map $mode None XF86AudioPause spawn 'playerctl play-pause'
+    map $mode None XF86AudioPrev  spawn 'playerctl previous'
+    map $mode None XF86AudioNext  spawn 'playerctl next'
+
+    map $mode None XF86MonBrightnessUp   spawn 'brightnessctl s 5%+'
+    map $mode None XF86MonBrightnessDown spawn 'brightnessctl s 5%-'
+done
+
+# Set background and border color
+riverctl background-color 0x282828
+riverctl border-color-focused 0x93a1a1
+riverctl border-color-unfocused 0x586e75
+
+# Set keyboard repeat rate
+riverctl set-repeat 40 300
+
+riverctl default-layout luatile
+exec river-luatile
