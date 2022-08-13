@@ -90,10 +90,10 @@ local vopts = {
 -- NOTE: Prefer using : over <cmd> as the latter avoids going back in normal-mode.
 -- see https://neovim.io/doc/user/map.html#:map-cmd
 local vmappings = {
-  [" "] = { "<ESC><CMD>lua require('Comment.api').toggle_linewise_op(vim.fn.visualmode())<CR>", "Comment" },
+  [" "] = { "<ESC><CMD>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", "Comment" },
 }
 local mappings = {
-  [" "] = { "<cmd>lua require('Comment.api').toggle_current_linewise()<cr>", "Comment" },
+  [" "] = { "<cmd>lua require('Comment.api').toggle.linewise.current()<cr>", "Comment" },
   ["a"] = { "<cmd>Alpha<cr>", "Alpha" },
   ["e"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
   ["w"] = { "<cmd>w!<CR>", "Save" },

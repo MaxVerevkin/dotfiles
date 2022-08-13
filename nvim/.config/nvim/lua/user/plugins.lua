@@ -73,7 +73,10 @@ return packer.startup(function(use)
   use {
     "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
     config = function()
-      require("lsp_lines").setup()
+      local ok, lines = pcall(require, "lsp_lines")
+      if ok then
+        lines.setup()
+      end
     end,
   }
 

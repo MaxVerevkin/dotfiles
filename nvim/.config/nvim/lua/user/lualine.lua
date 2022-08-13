@@ -14,8 +14,8 @@ local function gen_colorscheme()
   local normal = vim.api.nvim_get_hl_by_name("Normal", {})
   local function get_hl(name)
     local hl = vim.api.nvim_get_hl_by_name(name, {})
-    local bg = string.format("#%06x", hl.background or normal.background)
-    local fg = string.format("#%06x", hl.foreground or normal.foreground)
+    local bg = string.format("#%06x", hl.background or normal.background or 0)
+    local fg = string.format("#%06x", hl.foreground or normal.foreground or 0)
     if not hl.reverse then
       return { fg = fg, bg = bg }
     else

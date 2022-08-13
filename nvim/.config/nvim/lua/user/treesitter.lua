@@ -4,7 +4,7 @@ if not status_ok then
 end
 
 configs.setup {
-  ensure_installed = { "lua", "rust", "toml", "comment" },
+  ensure_installed = { "lua", "rust", "toml", "comment", "markdown" },
   autopairs = { enable = true },
   highlight = {
     enable = true,

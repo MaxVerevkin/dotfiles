@@ -73,9 +73,7 @@ vim.api.nvim_create_autocmd(
         if vim.tbl_contains(ft_exclude, vim.bo.filetype) then
           vim.opt_local.winbar = nil
         else
-          -- vim.opt_local.winbar = "hello"
           vim.opt_local.winbar = get_winbar()
-          -- local _, _ = pcall(vim.api.nvim_set_option_value, "winbar", get_winbar(), { scope = "local" })
         end
       end)
     end,
