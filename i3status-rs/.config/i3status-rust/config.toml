@@ -1,12 +1,11 @@
 double_click_delay = 0
 
 [icons]
-# icons = "material-nf"
-name = "material-nf"
+icons = "material-nf"
 
 # Minimalistic gruvbox-dark variant
 # [theme]
-# name = "native"
+# theme = "native"
 # [theme.overrides]
 # idle_fg = "#ebdbb2"
 # info_fg = "#458588"
@@ -16,8 +15,7 @@ name = "material-nf"
 
 # Slick
 [theme]
-# theme = "slick"
-name = "slick"
+theme = "slick"
 [theme.overrides]
 separator = "native"
 alternating_tint_bg = "none"
@@ -29,10 +27,16 @@ hue_shifter = "wl_gammarelay_rs"
 
 [[block]]
 block = "focused_window"
-driver = "auto"
+driver = "ristate"
 [block.format]
 full = "$title.rot-str(23, 0.5)"
 short = "$title.rot-str(13, 0.5)"
+
+[[block]]
+block = "battery"
+driver = "sysfs"
+format = "$percentage ($time)"
+hide_full = true
 
 # [[block]]
 # block = "weather"
@@ -43,6 +47,7 @@ short = "$title.rot-str(13, 0.5)"
 
 [[block]]
 block = "pacman"
+signal = 1
 hide_when_uptodate = true
 
 [[block]]
@@ -53,14 +58,13 @@ interval = 60
 [[block]]
 block = "bluetooth"
 mac = "00:18:09:92:1B:BA"
-adapter_mac = "F0:42:1C:ED:0D:6D"
 hide_disconnected = true
 format = ""
 
 [[block]]
 block = "net"
-device = "wlp3s0"
-format_alt = "{$ssid $frequency.eng(3) |}$device"
+# device = "wlo1"
+format_alt = "{$ssid $frequency.eng(3) $bitrate |}$device"
 [block.format]
 full = "{$signal_strength|}$speed_down.eng(3,auto,K)$speed_up.eng(3,auto,K)"
 short = "$signal_strength|"
@@ -81,7 +85,7 @@ block = "cpu"
 format_alt = "$frequency.eng(3,auto, M) \\|$boost"
 interval = 1
 [block.format]
-full = "$barchart $utilization"
+full = "$barchart $utilization.eng(3)"
 short = "$utilization"
 
 [[block]]
@@ -93,8 +97,7 @@ clickable = false
 block = "temperature"
 collapsed = false
 format = "$average|"
-chip = "*-isa-*"
-inputs = ["Core 0", "Core 1"]
+chip = "k10temp-pci-00c3"
 
 [[block]]
 block = "sound"
@@ -106,12 +109,12 @@ short = "$volume|"
 button = "left"
 cmd = "pavucontrol"
 
-# [[block]]
-# block = "music"
-# hide_when_empty = true
-# [block.format]
-# full = "$combo.rot-str(25, 0.5)$prev$play$next|"
-# short = "$combo.rot-str(15, 0.5)$play|"
+[[block]]
+block = "music"
+hide_when_empty = true
+[block.format]
+full = "$combo.rot-str(25, 0.5)$prev$play$next|"
+short = "$combo.rot-str(15, 0.5)$play|"
 
 [[block]]
 block = "time"
@@ -119,18 +122,3 @@ icons_format = ""
 [block.format]
 full = "%d/%m %R"
 short = "%R"
-
-[[block]]
-block = "menu"
-text = "\uf011"
-[[block.items]]
-display = " -&gt;   Sleep   &lt;-"
-cmd = "systemctl suspend"
-[[block.items]]
-display = " -&gt; Power Off &lt;-"
-cmd = "poweroff"
-confirm_msg = "Are you sure you want to power off?"
-[[block.items]]
-display = " -&gt;  Reboot   &lt;-"
-cmd = "reboot"
-confirm_msg = "Are you sure you want to reboot?"
