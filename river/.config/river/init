@@ -14,16 +14,12 @@ riverctl input pointer-1267-12541-ELAN071A:00_04F3:30FD_Touchpad natural-scroll 
 riverctl focus-follows-cursor normal
 
 map normal Super+Shift Q close
-map normal Super+Shift O spawn 'toggle-laptop-display.sh'
-map normal Super+Shift N spawn 'wifi_toggle.sh'
-map normal Super+Shift Z spawn 'systemctl suspend'
 
 map normal Super Return spawn kitty
-# map normal Super Return spawn alacritty
+map normal Super Space spawn wlr-which-key
 map normal Super B spawn 'bemenu-run -b -l 5'
 map normal Super C spawn 'killall -s USR2 i3status-rs'
 
-map normal Super N spawn 'alacritty --class nmtui-connect-applet -e nmtui-connect'
 
 map normal None Print spawn 'grim -g "$(slurp)" - | swappy -f -'
 
@@ -94,11 +90,8 @@ all_tags=$(((1 << 31) - 1))
 map-ru normal Super 0 set-focused-tags $all_tags
 map-ru normal Super+Shift 0 set-view-tags $all_tags
 
-map normal Super T toggle-focused-tags $((1<<31))
-map normal Super+Shift T toggle-view-tags $((1<<31))
-
-# Super+Space to toggle float
-map normal Super Space toggle-float
+# Super+T to toggle float
+map normal Super T toggle-float
 
 # Super+F to toggle fullscreen
 map normal Super F toggle-fullscreen
