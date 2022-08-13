@@ -80,17 +80,25 @@ window:
   #multiplier: 3
 
 font:
+  # normal:
+  #   family: JetBrainsMono Nerd Font
+  # bold:
+  #   family: JetBrainsMono Nerd Font
+  # italic:
+  #   family: JetBrainsMono Nerd Font
+  # bold_italic:
+  #   family: JetBrainsMono Nerd Font
   normal:
-    family: JetBrainsMono Nerd Font
+    family: Comic Code Ligatures
   bold:
-    family: JetBrainsMono Nerd Font
+    family: Comic Code Ligatures
   italic:
-    family: JetBrainsMono Nerd Font
+    family: Comic Code Ligatures
   bold_italic:
-    family: JetBrainsMono Nerd Font
+    family: Comic Code Ligatures
 
   # Point size
-  #size: 11.0
+  size: 11.0
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
@@ -307,7 +315,7 @@ font:
   # When set to `true`, selected text will be copied to the primary clipboard.
   #save_to_clipboard: false
 
-#cursor:
+cursor:
   # Cursor style
   #style:
     # Cursor shape
@@ -333,7 +341,7 @@ font:
   # the style of the active value of the normal cursor.
   #
   # See `cursor.style` for available options.
-  #vi_mode_style: None
+  vi_mode_style: Block
 
   # Cursor blinking interval in milliseconds.
   #blink_interval: 750
@@ -659,7 +667,7 @@ font:
 #
 # If the same trigger is assigned to multiple actions, all of them are executed
 # in the order they were defined in.
-#key_bindings:
+key_bindings:
   #- { key: Paste,                                       action: Paste          }
   #- { key: Copy,                                        action: Copy           }
   #- { key: L,         mods: Control,                    action: ClearLogNotice }
@@ -670,7 +678,7 @@ font:
   #- { key: End,       mods: Shift,   mode: ~Alt,        action: ScrollToBottom }
 
   # Vi Mode
-  #- { key: Space,  mods: Shift|Control, mode: ~Search,    action: ToggleViMode            }
+  - { key: Space,  mods: Control, mode: ~Search,    action: ToggleViMode            }
   #- { key: Space,  mods: Shift|Control, mode: Vi|~Search, action: ScrollToBottom          }
   #- { key: Escape,                      mode: Vi|~Search, action: ClearSelection          }
   #- { key: I,                           mode: Vi|~Search, action: ToggleViMode            }
