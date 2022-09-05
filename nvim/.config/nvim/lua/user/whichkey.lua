@@ -98,7 +98,6 @@ local mappings = {
   ["e"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
   ["w"] = { "<cmd>w!<CR>", "Save" },
   ["q"] = { "<cmd>q!<CR>", "Quit" },
-  ["c"] = { "<cmd>Bdelete<CR>", "Close Buffer" },
   ["f"] = { "<cmd>Telescope find_files<cr>", "Find files" },
   ["F"] = { "<cmd>Telescope live_grep<cr>", "Find Text" },
 
@@ -140,6 +139,7 @@ local mappings = {
     r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
     s = { "<cmd>LspRestart<cr>", "Restart Server" },
     f = { "<cmd>lua require('user.autoformat').toggle()<cr>", "Toggle Autoformat" },
+    c = { "<cmd>lua TOGGLE_CMP()<cr>", "Toggle Cmp" },
   },
 
   d = {

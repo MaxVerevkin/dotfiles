@@ -43,19 +43,29 @@ local source_names = {
   path = "[Path]",
 }
 
+local enabled = true
+
+function TOGGLE_CMP()
+  enabled = not enabled
+end
+
 cmp.setup {
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
     end,
   },
+  enabled = function()
+    local buftype = vim.api.nvim_buf_get_option(0, "buftype")
+    return enabled and buftype ~= "prompt"
+  end,
   mapping = {
     ["<c-y>"] = cmp.mapping.confirm { select = true },
-    ["<C-k>"] = cmp.mapping.scroll_docs(-1),
-    ["<C-j>"] = cmp.mapping.scroll_docs(1),
+    ["<c-k>"] = cmp.mapping.scroll_docs(-1),
+    ["<c-j>"] = cmp.mapping.scroll_docs(1),
     ["<Tab>"] = cmp.mapping.select_next_item(),
     ["<S-Tab>"] = cmp.mapping.select_prev_item(),
-    ["<C-e>"] = cmp.mapping {
+    ["<c-e>"] = cmp.mapping {
       i = cmp.mapping.abort(),
       c = cmp.mapping.close(),
     },

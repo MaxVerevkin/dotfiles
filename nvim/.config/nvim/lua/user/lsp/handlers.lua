@@ -1,34 +1,20 @@
 local M = {}
 
 M.setup = function()
-  local signs = {
-    { name = "DiagnosticSignError", text = "" },
-    { name = "DiagnosticSignWarn", text = "" },
-    { name = "DiagnosticSignHint", text = "" },
-    { name = "DiagnosticSignInfo", text = "" },
-  }
-
-  for _, sign in ipairs(signs) do
-    vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
+  local function sign(name, text)
+    vim.fn.sign_define(name, { texthl = name, text = text, numhl = "" })
   end
 
+  sign("DiagnosticSignError", "")
+  sign("DiagnosticSignWarn", "")
+  sign("DiagnosticSignHint", "")
+  sign("DiagnosticSignInfo", "")
+
   vim.diagnostic.config {
-    -- disable virtual text
     virtual_text = false,
     virtual_lines = false,
-    -- show signs
-    signs = { active = signs },
     update_in_insert = true,
-    underline = true,
     severity_sort = true,
-    float = {
-      focusable = false,
-      style = "minimal",
-      border = "rounded",
-      source = "always",
-      header = "",
-      prefix = "",
-    },
   }
 
   vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {

@@ -17,12 +17,6 @@ vim.keymap.set("n", "<c-d>", "<cmd>Bdelete<cr>", silent)
 -- Show open buffers
 vim.keymap.set("n", "=", "<cmd>Telescope buffers<cr>", silent)
 
--- Better window navigation
-vim.keymap.set("n", "<C-h>", "<C-w>h", silent)
-vim.keymap.set("n", "<C-j>", "<C-w>j", silent)
-vim.keymap.set("n", "<C-k>", "<C-w>k", silent)
-vim.keymap.set("n", "<C-l>", "<C-w>l", silent)
-
 -- Resize
 vim.keymap.set({ "n", "t" }, "<A-j>", "<cmd>resize -2<CR>", silent)
 vim.keymap.set({ "n", "t" }, "<A-k>", "<cmd>resize +2<CR>", silent)

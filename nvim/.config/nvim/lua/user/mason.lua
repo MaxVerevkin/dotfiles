@@ -37,6 +37,7 @@ mason_lsp.setup_handlers {
   end,
   ["rust_analyzer"] = make_setup_fn "rust_analyzer",
   ["sumneko_lua"] = make_setup_fn "sumneko_lua",
+  ["arduino_language_server"] = make_setup_fn "arduino_language_server",
 }
 
 -- These are installed localy
