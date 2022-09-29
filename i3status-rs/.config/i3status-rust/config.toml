@@ -1,4 +1,5 @@
-double_click_delay = 0
+error_format = " X "
+error_fullscreen_format = " $full_error_message.rot-str(170, 0.2) "
 
 [icons]
 icons = "material-nf"
@@ -13,7 +14,6 @@ icons = "material-nf"
 # warning_fg = "#fabd2f"
 # critical_fg = "#fb4934"
 
-# Slick
 [theme]
 theme = "slick"
 [theme.overrides]
@@ -22,103 +22,128 @@ alternating_tint_bg = "none"
 alternating_tint_fg = "none"
 
 [[block]]
+block = "focused_window"
+driver = "ristate"
+error_format = ""
+[block.format]
+full = " $title.rot-str(23, 0.5) |"
+short = " $title.rot-str(13, 0.5) |"
+
+[[block]]
+block = "backlight"
+# device = "ddcci3"
+
+[[block]]
 block = "hueshift"
 hue_shifter = "wl_gammarelay_rs"
 
 [[block]]
-block = "focused_window"
-driver = "ristate"
-[block.format]
-full = "$title.rot-str(23, 0.5)"
-short = "$title.rot-str(13, 0.5)"
-
-[[block]]
 block = "battery"
 driver = "sysfs"
-format = "$percentage ($time)"
-hide_full = true
+full_threshold = 99
+interval = 5
+format = " $icon $percentage ($power.eng(3){ $time|}) "
+full_format = ""
 
-# [[block]]
-# block = "weather"
-# format = "$temp"
-# autolocate = true
-# [block.service]
-# name = "metno"
+[[block]]
+block = "weather"
+format = " $icon $temp $humidity "
+interval = 600
+autolocate = true
+autolocate_interval = "once"
+service = { name = "metno" }
 
 [[block]]
 block = "pacman"
 signal = 1
-hide_when_uptodate = true
+format_up_to_date = ""
+[[block.click]]
+button = "left"
+cmd = "fakeroot pacman -Qu --dbpath /tmp/checkup-db-maxv | bemenu -b -l10 -"
+pass = false
 
 [[block]]
 block = "github"
 hide_if_total_is_zero = true
 interval = 60
+[[block.click]]
+button = "left"
+cmd = "xdg-open https://github.com/notifications"
 
 [[block]]
 block = "bluetooth"
 mac = "00:18:09:92:1B:BA"
-hide_disconnected = true
-format = ""
+format = " $icon "
+disconnected_format = ""
 
 [[block]]
 block = "net"
-# device = "wlo1"
-format_alt = "{$ssid $frequency.eng(3) $bitrate |}$device"
+device = "wlo1"
+format_alt = " $icon {$ssid |}{$frequency.eng(3) $bitrate |}$device "
+missing_format = " \ufaa9 " # nf-mdi-wifi_off
 [block.format]
-full = "{$signal_strength|}$speed_down.eng(3,auto,K)$speed_up.eng(3,auto,K)"
-short = "$signal_strength|"
+full = " $icon {$signal_strength|?} ^icon_net_down $speed_down.eng(3,auto,K) ^icon_net_up $speed_up.eng(3,auto,K) "
+short = " $icon {$signal_strength|?} "
 
-[[block]]
-block = "disk_space"
-info_type = "available"
-alert_unit = "GB"
-alert = 10.0
-warning = 15.0
-format = "$available"
-[[block.click]]
-button = "right"
-update = true
-
-[[block]]
-block = "cpu"
-format_alt = "$frequency.eng(3,auto, M) \\|$boost"
-interval = 1
-[block.format]
-full = "$barchart $utilization.eng(3)"
-short = "$utilization"
+# [[block]]
+# block = "disk_space"
+# interval = 60
+# info_type = "available"
+# alert_unit = "GB"
+# alert = 10.0
+# warning = 15.0
+# format = " $icon $available.eng(5,auto,1) "
+# [[block.click]]
+# button = "right"
+# update = true
 
 [[block]]
 block = "memory"
-format_mem = "$mem_used_percents.eng(1)"
+format_mem = " $icon $mem_used_percents.eng(1) "
 clickable = false
+
+[[block]]
+block = "cpu"
+interval = 1
+format = " $icon $utilization.eng(3) "
+format_alt = " $icon $frequency.eng(3,auto, M) \\|$boost "
 
 [[block]]
 block = "temperature"
 collapsed = false
-format = "$average|"
+format = " $icon {$average |}"
 chip = "k10temp-pci-00c3"
 
 [[block]]
 block = "sound"
 driver = "pulseaudio"
-[block.format]
-full = "$volume.bar(4) $volume|"
-short = "$volume|"
+format = " $icon {$volume |}"
+device_kind = "sink"
+step_width = 1
 [[block.click]]
 button = "left"
 cmd = "pavucontrol"
 
 [[block]]
-block = "music"
-hide_when_empty = true
-[block.format]
-full = "$combo.rot-str(25, 0.5)$prev$play$next|"
-short = "$combo.rot-str(15, 0.5)$play|"
+block = "sound"
+driver = "pulseaudio"
+format = " $icon {$volume |}"
+device_kind = "source"
+step_width = 1
+[[block.click]]
+button = "left"
+cmd = "pavucontrol"
+
+# [[block]]
+# block = "music"
+# hide_when_empty = true
+# [block.format]
+# full = " $play $combo.rot-str(25, 0.5) |"
+# short = " $play $combo.rot-str(15, 0.5) |"
 
 [[block]]
 block = "time"
-icons_format = ""
+interval = 10
 [block.format]
-full = "%d/%m %R"
-short = "%R"
+full = " %d/%m %R "
+short = " %R "
