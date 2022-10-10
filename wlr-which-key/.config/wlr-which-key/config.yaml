@@ -1,4 +1,5 @@
 font: Comic Code Ligatures
+# background: "#282828c0"
 
 menu: 
   "w":
@@ -12,6 +13,12 @@ menu:
       "s": { desc: Sleep, cmd: systemctl suspend }
       "r": { desc: Reboot, cmd: reboot }
       "o": { desc: Off, cmd: poweroff }
+  "t":
+    desc: Theme
+    submenu:
+      "d": { desc: Dark, cmd: dark-theme on }
+      "l": { desc: Light, cmd: dark-theme off }
+      "t": { desc: Toggle, cmd: dark-theme toggle }
   "l":
     desc: Laptop Screen
     submenu:
