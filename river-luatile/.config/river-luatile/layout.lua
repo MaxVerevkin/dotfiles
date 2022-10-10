@@ -1,7 +1,6 @@
 -- You can define your global state here
 local main_ratio = 0.65
 local gaps = 8
-smart_gaps = false
 
 -- The most important function - the actual layout generator
 --
@@ -17,30 +16,24 @@ smart_gaps = false
 --  * Y coordinate
 --  * Window width
 --  * Window height
---
--- This example is a simplified version of `rivertile`
 function handle_layout(args)
 	local retval = {}
 	if args.count == 1 then
-		if smart_gaps then
-			table.insert(retval, { 0, 0, args.width, args.height })
-		else
-			table.insert(retval, { gaps, gaps, args.width - gaps * 2, args.height - gaps * 2 })
-		end
+		table.insert(retval, { 0, gaps, args.width, args.height - gaps })
 	elseif args.count > 1 then
-		local main_w = (args.width - gaps * 3) * main_ratio
-		local side_w = (args.width - gaps * 3) - main_w
-		local main_h = args.height - gaps * 2
-		local side_h = (args.height - gaps) / (args.count - 1) - gaps
+		local main_w = (args.width - gaps) * main_ratio
+		local side_w = (args.width - gaps) - main_w
+		local main_h = args.height - gaps
+		local side_h = args.height / (args.count - 1) - gaps
 		table.insert(retval, {
-			gaps,
+			0,
 			gaps,
 			main_w,
 			main_h,
 		})
 		for i = 0, (args.count - 2) do
 			table.insert(retval, {
-				main_w + gaps * 2,
+				main_w + gaps,
 				gaps + i * (side_h + gaps),
 				side_w,
 				side_h,
