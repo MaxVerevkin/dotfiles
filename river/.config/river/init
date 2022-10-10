@@ -4,6 +4,8 @@ dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 
 riverctl spawn i3bar-river
 riverctl spawn udiskie
+riverctl spawn "kanshi >/tmp/kanshi.log 2>&1"
+riverctl spawn 'swayidle -w before-sleep "swaylock --clock --indicator --color 282828"'
 
 alias map='riverctl map -layout 0'
 alias map-ru='riverctl map -layout 1'
@@ -18,8 +20,8 @@ map normal Super+Shift Q close
 map normal Super Return spawn kitty
 map normal Super Space spawn wlr-which-key
 map normal Super B spawn 'bemenu-run -b -l 5'
-map normal Super C spawn 'killall -s USR2 i3status-rs'
-
+map normal Super C spawn 'killall -s USR1 i3status-rs'
+map normal Super+Shift C spawn 'killall -s USR2 i3status-rs'
 
 map normal None Print spawn 'grim -g "$(slurp)" - | swappy -f -'
 
@@ -124,13 +126,17 @@ do
     map $mode None XF86MonBrightnessDown spawn 'brightnessctl s 5%-'
 done
 
-# Set background and border color
+# Theming
+riverctl border-width 3
 riverctl background-color 0x282828
-riverctl border-color-focused 0x93a1a1
-riverctl border-color-unfocused 0x586e75
+# riverctl border-color-focused 0x93a1a1
+# riverctl border-color-unfocused 0x586e75
+dark-theme apply
 
 # Set keyboard repeat rate
 riverctl set-repeat 40 300
+
+riverctl float-filter-add app-id nmtui-connect
 
 riverctl default-layout luatile
 exec river-luatile
