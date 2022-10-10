@@ -42,4 +42,4 @@ mason_lsp.setup_handlers {
 
 -- These are installed localy
 make_setup_fn "openscad_ls"()
-lspconfig.clangd.setup(lsp_opts)
+make_setup_fn "clangd"()

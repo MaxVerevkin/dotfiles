@@ -40,7 +40,6 @@ return packer.startup(function(use)
   use "lewis6991/impatient.nvim"
   use "lukas-reineke/indent-blankline.nvim"
   use "goolord/alpha-nvim"
-  use "antoinemadec/FixCursorHold.nvim" -- This is needed to fix lsp doc highlight (#12587)
   use "folke/which-key.nvim" -- a popup with possible keybindings
   use "stevearc/dressing.nvim" -- Improve the default vim.ui interfaces
   use "phaazon/hop.nvim" -- Neovim motions on speed!
@@ -49,7 +48,7 @@ return packer.startup(function(use)
 
   -- Colorschemes
   use "~/nvim-plugin-dev/gruvbox.nvim"
-  use "lunarvim/colorschemes" -- A set of themes with excelent plugin support
+  use "LunarVim/synthwave84.nvim"
 
   -- cmp plugins
   use "hrsh7th/nvim-cmp" -- The completion plugin
@@ -111,6 +110,9 @@ return packer.startup(function(use)
 
   -- Rust
   use "saecki/crates.nvim" -- for Crargo.toml
+
+  -- Markdown
+  use "davidgranstrom/nvim-markdown-preview"
 
   -- Why not
   use "seandewar/nvimesweeper"

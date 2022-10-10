@@ -33,7 +33,6 @@ local get_filename = function()
       file_icon_color = ""
     end
     vim.api.nvim_set_hl(0, hl_group, { fg = file_icon_color })
-    -- vim.api.nvim_set_hl(0, "Winbar", { fg = "#6b737f" })
 
     return " " .. "%#" .. hl_group .. "#" .. file_icon .. "%*" .. " " .. "%#Winbar#" .. filename .. "%*"
   end
@@ -46,9 +45,12 @@ local get_gps = function()
   end
 
   local gps_location = gps.get_location()
+  if isempty(gps_location) then
+    return ""
+  end
 
   if not isempty(gps_location) then
-    return require("user.icons").ui.ChevronRight .. " " .. gps_location
+    return " " .. gps_location
   else
     return ""
   end

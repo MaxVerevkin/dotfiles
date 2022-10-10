@@ -32,6 +32,7 @@ o.title = true -- display file name in the window title
 o.guifont = "JetBrainsMono Nerd Font:h11" -- font for neovide
 
 o.scrolloff = 8 -- is one of my fav
+o.splitkeep = "topline"
 o.sidescrolloff = 8 -- this too
 
 o.shiftwidth = 4 -- the number of spaces inserted for each indentation

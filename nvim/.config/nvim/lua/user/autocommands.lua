@@ -16,9 +16,9 @@ autocmd("TextYankPost", {
 })
 
 autocmd("FileType", {
-  pattern = { "qf", "help", "man" },
+  pattern = { "help", "tsplayground" },
   group = group,
-  callback = function()
-    vim.keymap.set("n", "q", "<cmd>q<cr>", { buffer = 0 })
+  callback = function(args)
+    vim.keymap.set("n", "q", "<cmd>q<cr>", { buffer = args.buf })
   end,
 })

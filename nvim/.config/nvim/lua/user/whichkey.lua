@@ -176,6 +176,7 @@ local mappings = {
     name = "Other",
     c = { "<cmd>e ~/.config/nvim/init.lua<cr>", "Open Config" },
     s = { "<cmd>exec 'source '.bufname('%')<cr>", "Source Current File" },
+    m = { "<cmd>MarkdownPreview<cr>", "Open Markdown preview" },
   },
 }
 

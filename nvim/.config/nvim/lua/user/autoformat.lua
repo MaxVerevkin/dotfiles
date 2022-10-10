@@ -1,6 +1,6 @@
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local _enabled = {}
-local _ignored = { "tsserver", "sumneko_lua", "openscad_ls", "clangd" }
+local _ignored = { "sumneko_lua", "openscad_ls", "taplo" }
 
 local function is_enabled(bufnr)
   return vim.tbl_contains(_enabled, bufnr)

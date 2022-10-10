@@ -11,6 +11,9 @@ local silent = { silent = true }
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+vim.keymap.set("n", "k", "gk", silent)
+vim.keymap.set("n", "j", "gj", silent)
+
 -- Close current buffer
 vim.keymap.set("n", "<c-d>", "<cmd>Bdelete<cr>", silent)
 
