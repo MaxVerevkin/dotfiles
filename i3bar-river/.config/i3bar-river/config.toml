@@ -1,4 +1,4 @@
-background = "#282828"
+background = "#28282800"
 color = "#ffffff"
 separator = "#9a8a62"
 tag_fg = "#d79921"
@@ -13,7 +13,5 @@ separator_width = 0
 tags_r = 6
 blocks_r = 6
 blocks_overlap = 0
-# command = "~/rust/i3status-rust/target/debug/i3status-rs"
 # command = "~/i3status-rust/target/debug/i3status-rs"
-# command = "~/i3status-rust/target/release/i3status-rs"
 command = "i3status-rs"
