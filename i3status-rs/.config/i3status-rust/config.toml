@@ -85,17 +85,18 @@ missing_format = " \ufaa9 " # nf-mdi-wifi_off
 full = " $icon {$signal_strength|?} ^icon_net_down $speed_down.eng(3,auto,K) ^icon_net_up $speed_up.eng(3,auto,K) "
 short = " $icon {$signal_strength|?} "
 
-# [[block]]
-# block = "disk_space"
-# interval = 60
-# info_type = "available"
-# alert_unit = "GB"
-# alert = 10.0
-# warning = 15.0
-# format = " $icon $available.eng(5,auto,1) "
-# [[block.click]]
-# button = "right"
-# update = true
+[[block]]
+block = "disk_space"
+interval = 60
+info_type = "available"
+alert_unit = "GB"
+alert = 10.0
+warning = 15.0
+format = " $icon $available.eng(5,auto,1) "
+format_alt = " $icon $available.eng(5,auto,1) / $total.eng(5,auto,1) "
+[[block.click]]
+button = "right"
+update = true
 
 [[block]]
 block = "memory"
