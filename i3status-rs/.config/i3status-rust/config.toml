@@ -1,18 +1,11 @@
 error_format = " X "
-error_fullscreen_format = " $full_error_message.rot-str(170, 0.2) "
+error_fullscreen_format = " $full_error_message.str(w:170, rot_interval:0.2) "
+icons_format = "{icon}\u2006"
 
 [icons]
 icons = "material-nf"
-
-# Minimalistic gruvbox-dark variant
-# [theme]
-# theme = "native"
-# [theme.overrides]
-# idle_fg = "#ebdbb2"
-# info_fg = "#458588"
-# good_fg = "#8ec07c"
-# warning_fg = "#fabd2f"
-# critical_fg = "#fb4934"
+[icons.overrides]
+no_wifi = "\ufaa9" # nf-mdi-wifi_off
 
 [theme]
 theme = "slick"
@@ -23,27 +16,58 @@ alternating_tint_fg = "none"
 
 [[block]]
 block = "focused_window"
-driver = "ristate"
-error_format = ""
+driver = "wlr_toplevel_management"
 [block.format]
-full = " $title.rot-str(23, 0.5) |"
-short = " $title.rot-str(13, 0.5) |"
+full = " $title.str(max_w:20, rot_interval:0.5) |"
+short = " $title.str(max_w:10, rot_interval:0.5) |"
+
+# [[block]]
+# block = "amd_gpu"
+# format = " $icon $utilization "
+# format_alt = " $icon MEM: $vram_used_percests ($vram_used/$vram_total) "
+# interval = 1
 
 [[block]]
 block = "backlight"
-# device = "ddcci3"
+device = "amdgpu_bl0"
+ddcci_sleep_multiplier = 0.1
+format = " [$icon L $brightness]"
+merge_with_next = true
+
+[[block]]
+block = "backlight"
+device = "ddcci3"
+ddcci_sleep_multiplier = 0.1
+format = " $icon $brightness"
+error_format = ""
+merge_with_next = true
 
 [[block]]
 block = "hueshift"
 hue_shifter = "wl_gammarelay_rs"
+format = " $temperature\u00B0K "
+
+[[block]]
+block = "notify"
+driver = "swaync"
+format = " $icon {($notification_count.eng(w:1)) |}"
+[[block.click]]
+button = "left"
+action = "show"
+[[block.click]]
+button = "right"
+action = "toggle_paused"
 
 [[block]]
 block = "battery"
 driver = "sysfs"
 full_threshold = 99
 interval = 5
-format = " $icon $percentage ($power.eng(3){ $time|}) "
+not_charging_format = " $icon $percentage "
 full_format = ""
+[block.format]
+full = " $icon $percentage ($power{ $time|}) "
+short = " $icon $percentage "
 
 [[block]]
 block = "weather"
@@ -59,8 +83,7 @@ signal = 1
 format_up_to_date = ""
 [[block.click]]
 button = "left"
-cmd = "fakeroot pacman -Qu --dbpath /tmp/checkup-db-maxv | bemenu -b -l10 -"
-pass = false
+cmd = "fakeroot pacman -Qu --dbpath /tmp/checkup-db-i3statusrs | bemenu -b -l10 -"
 
 [[block]]
 block = "github"
@@ -71,19 +94,18 @@ button = "left"
 cmd = "xdg-open https://github.com/notifications"
 
 [[block]]
+block = "net"
+# device = "wlo1"
+interval = 5
+format = " $icon {$signal_strength|?} "
+format_alt = " $icon {$signal_strength|?} [^icon_net_down $speed_down.eng(w:1, p:K, hide_unit:true) ^icon_net_up $speed_up.eng(w:1, p:K, hide_unit:true)] {$ssid |}{$frequency.eng(w:3) |}($device) "
+missing_format = " ^icon_no_wifi "
+merge_with_next = true
+[[block]]
 block = "bluetooth"
 mac = "00:18:09:92:1B:BA"
-format = " $icon "
-disconnected_format = ""
-
-[[block]]
-block = "net"
-device = "wlo1"
-format_alt = " $icon {$ssid |}{$frequency.eng(3) $bitrate |}$device "
-missing_format = " \ufaa9 " # nf-mdi-wifi_off
-[block.format]
-full = " $icon {$signal_strength|?} ^icon_net_down $speed_down.eng(3,auto,K) ^icon_net_up $speed_up.eng(3,auto,K) "
-short = " $icon {$signal_strength|?} "
+format = " $icon {^icon_bat$percentage |}"
+disconnected_format = " $icon "
 
 [[block]]
 block = "disk_space"
@@ -92,28 +114,40 @@ info_type = "available"
 alert_unit = "GB"
 alert = 10.0
 warning = 15.0
-format = " $icon $available.eng(5,auto,1) "
-format_alt = " $icon $available.eng(5,auto,1) / $total.eng(5,auto,1) "
+format = " $icon $available.eng(w:5, prefix:1) "
+format_alt = " $icon $available.eng(w:5, prefix:1)/$total.eng(w:5, prefix:1) "
 [[block.click]]
 button = "right"
 update = true
 
 [[block]]
 block = "memory"
-format_mem = " $icon $mem_used_percents.eng(1) "
-clickable = false
+format = " $icon $mem_used_percents.eng(w:1) "
+format_alt = " $icon $mem_used/$mem_total "
 
 [[block]]
 block = "cpu"
 interval = 1
-format = " $icon $utilization.eng(3) "
-format_alt = " $icon $frequency.eng(3,auto, M) \\|$boost "
+format = " $icon $utilization "
+format_alt = " $icon $utilization $max_frequency.eng(prefix:M) \\|$boost "
 
 [[block]]
 block = "temperature"
-collapsed = false
-format = " $icon {$average |}"
+format = " $icon $average "
 chip = "k10temp-pci-00c3"
+good = 0
+info = 50
+warning = 80
+
+[[block]]
+block = "music"
+seek_step_secs = 2
+[block.format]
+full = " $play $combo.str(max_w:20, rot_interval:0.5) |"
+short = " $play $combo.str(max_w:12, rot_interval:0.5) |"
+[[block.click]]
+button = "left"
+action = "play_pause"
 
 [[block]]
 block = "sound"
@@ -121,6 +155,7 @@ driver = "pulseaudio"
 format = " $icon {$volume |}"
 device_kind = "sink"
 step_width = 1
+merge_with_next = true
 [[block.click]]
 button = "left"
 cmd = "pavucontrol"
@@ -131,20 +166,29 @@ driver = "pulseaudio"
 format = " $icon {$volume |}"
 device_kind = "source"
 step_width = 1
+[block.theme_overrides]
+idle_fg = { link = "warning_fg" }
+idle_bg = { link = "warning_bg" }
+warning_fg = { link = "idle_fg" }
+warning_bg = { link = "idle_bg" }
 [[block.click]]
 button = "left"
-cmd = "pavucontrol"
+action = "toggle_mute"
 
-# [[block]]
-# block = "music"
-# hide_when_empty = true
-# [block.format]
-# full = " $play $combo.rot-str(25, 0.5) |"
-# short = " $play $combo.rot-str(15, 0.5) |"
+[[block]]
+block = "custom"
+command = "river-kbd-layout-watcher 'English (programmer Dvorak)' en 'Russian' ru"
+# command = "river-kbd-layout-watcher 'English (programmer Dvorak)' en 'Russian' ru || hyprland-kbd-layout.sh"
+error_format = ""
+persistent = true
+
+[[block]]
+block = "tea_timer"
+done_cmd = "notify-send 'Timer Finished'"
 
 [[block]]
 block = "time"
 interval = 10
 [block.format]
-full = " %d/%m %R "
-short = " %R "
+full = " $timestamp.datetime(f:'%a %d/%m %R') "
+short = " $timestamp.datetime(f:%R) "
