@@ -1,0 +1,16 @@
+font: JetBrainsMono Nerd Font 12
+background: "#282828d0"
+color: "#fbf1c7"
+border: "#8ec07c"
+separator: " ➜ "
+border_width: 2
+corner_r: 10
+padding: 15
+
+menu: 
+  "r":
+    desc: Select Region
+    submenu:
+      "s": { desc: And Open In Swappy, cmd: grim -g "$(slurp)" - | swappy -f - }
+      "c": { desc: Copy To Clipboard, cmd: grim -g "$(slurp)" - | wl-copy }
+  "c": { desc: Color Picker, cmd: hyprpicker -a }
