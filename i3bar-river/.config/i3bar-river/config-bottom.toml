@@ -1,9 +1,6 @@
-# command = "/home/maxv/test.sh"
 command = "i3status-rs -j 10"
 font = "JetBrainsMono Nerd Font Propo 10"
-
-background = "#00000000"
-tag_bg = "#00000000"
+# position = "bottom"
 
 height = 20
 margin_bottom = 4

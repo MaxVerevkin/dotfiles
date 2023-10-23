@@ -9,25 +9,17 @@ no_wifi = "\U000f05aa" # nf-md-wifi_off
 bell-slash = "\U000f00a0" # nf-md-bell_sleep
 degree = "\u00B0"
 
-[theme]
-theme = "slick"
-[theme.overrides]
-separator = "native"
-alternating_tint_bg = "none"
-alternating_tint_fg = "none"
-
 # [theme]
-# theme = "native"
+# theme = "slick"
+# [theme.overrides]
+# # separator = "native"
+# alternating_tint_bg = "none"
+# alternating_tint_fg = "none"
+
+[theme]
+theme = "native"
 # [theme.overrides]
 # separator = "/"
-
-[[block]]
-block = "focused_window"
-driver = "wlr_toplevel_management"
-# if_command = 'ps aux | rg "\d river"'
-[block.format]
-full = " $title.str(max_w:30, rot_interval:0.5) |"
-short = " $title.str(max_w:10, rot_interval:0.5) |"
 
 [[block]]
 block = "backlight"
@@ -35,23 +27,6 @@ ddcci_sleep_multiplier = 0.1
 minimum = 0
 format = " $icon $brightness"
 merge_with_next = true
-
-[[block]]
-block = "hueshift"
-hue_shifter = "wl_gammarelay_rs"
-format = " $temperature{^icon_degree}K "
-step = 500
-
-[[block]]
-block = "notify"
-driver = "swaync"
-format = " $icon {($notification_count.eng(w:1)) |}"
-[[block.click]]
-button = "left"
-action = "show"
-[[block.click]]
-button = "right"
-action = "toggle_paused"
 
 [[block]]
 block = "pacman"
@@ -67,7 +42,7 @@ cmd = "fakeroot pacman -Qu --dbpath /tmp/checkup-db-i3statusrs-$USER | bemenu -b
 [[block]]
 block = "github"
 hide_if_total_is_zero = true
-interval = 70
+interval = 120
 [[block.click]]
 button = "left"
 cmd = "xdg-open https://github.com/notifications"
@@ -129,24 +104,19 @@ good = 0
 info = 100
 warning = 100
 
-[[block]]
-block = "music"
-seek_step_secs = 2
-format = " \u2004$play $next $combo.str(max_w:10, rot_interval:0.5) |"
-# format_alt = " \u2004$play \u2004|"
-[[block.click]]
-button = "left"
-action = "play_pause"
+# [[block]]
+# block = "music"
+# seek_step_secs = 2
+# format = " \u2004$play $combo.str(max_w:10, rot_interval:0.5) |"
+# [[block.click]]
+# button = "left"
+# action = "play_pause"
 # [[block.click]]
 # button = "right"
-# action = "toggle_format"
+# action = "next"
 # [[block.click]]
-# button = "right"
-# widget = "play_pause_btn"
-# action = "toggle_format"
-[[block.click]]
-button = "middle"
-action = "next_player"
+# button = "middle"
+# action = "next_player"
 
 [[block]]
 block = "sound"
@@ -198,11 +168,11 @@ persistent = true
 block = "weather"
 autolocate = true
 autolocate_interval = "once"
-format = " $icon $wind.eng(w:1)m/s $temp "
-format_alt = " $icon_ffin (6h forecast) $wind_favg.eng(w:1)m/s {$temp_fmin}-$temp_fmax "
+format = " $icon {$wind.eng(w:1)}m/s $temp "
+# format_alt = " $icon (3h forecast) {$wind_forecast.eng(w:1)}m/s $temp_forecast "
 [block.service]
 name = "metno"
-forecast_hours = 6
+# forecast_hours = 3
 
 [[block]]
 block = "tea_timer"
@@ -213,7 +183,6 @@ merge_with_next = true
 [[block]]
 block = "time"
 format = "$timestamp.datetime(f:'%a %d %R') "
-interval = 1
 
 [[block]]
 block = "battery"
@@ -223,7 +192,3 @@ format = " $icon $percentage {($time) |}"
 charging_format = " $icon $percentage "
 not_charging_format = ""
 full_format = ""
-
-# [[block]]
-# block = "kdeconnect"
-# format = " $icon {$bat_icon $bat_charge |}{$network_icon $network_type |}"
