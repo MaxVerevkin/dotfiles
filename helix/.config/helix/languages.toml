@@ -1,0 +1,37 @@
+[language-server.pyright]
+command = "pyright-langserver"
+args = ["--stdio"]
+[language-server.pyright.config]
+provideFormatter = true
+
+[language-server.rust-analyzer.config]
+cargo.features = "all"
+
+[language-server.clangd]
+args = ["--header-insertion=never"]
+
+[[language]]
+name = "cpp"
+indent = { tab-width = 4, unit = "    " }
+
+[[language]]
+name = "javascript"
+auto-format = true
+[[language]]
+name = "typescript"
+auto-format = true
+[[language]]
+name = "tsx"
+auto-format = true
+
+[[language]]
+name = "cpp"
+auto-format = true
+
+[[language]]
+name = "ocaml"
+auto-format = true
+
+[[language]]
+name = "python"
+language-servers = ["pyright"]
