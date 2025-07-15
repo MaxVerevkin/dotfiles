@@ -1,0 +1,34 @@
+[general]
+import = ["/home/maxv/.config/alacritty/theme.toml"]
+
+[cursor]
+vi_mode_style = "Block"
+
+[font]
+size = 11.0
+
+[font.bold]
+family = "Comic Code Ligatures"
+
+[font.bold_italic]
+family = "Comic Code Ligatures"
+
+[font.italic]
+family = "Comic Code Ligatures"
+
+[font.normal]
+family = "Comic Code Ligatures"
+
+[[keyboard.bindings]]
+action = "ToggleViMode"
+key = "Space"
+mode = "~Search"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "ResetFontSize"
+key = ")"
+mods = "Control"
+
+[window]
+dynamic_title = true
