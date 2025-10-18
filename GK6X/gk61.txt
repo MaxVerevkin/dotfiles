@@ -4,6 +4,6 @@ LWin:LAlt
 LAlt:LWin
 Space:LShift
 Space_4:RCtrl
-RAlt:RCtrl
+RAlt:LWin
 Menu:Home
 RCtrl:End
