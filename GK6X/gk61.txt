@@ -1,9 +1,16 @@
 ﻿[Base,Layer1,Layer2,FnLayer1,FnLayer2]
-CapsLock:Backspace
 LWin:LAlt
 LAlt:LWin
 Space:LShift
 Space_4:RCtrl
+
+[Layer1]
 RAlt:LWin
 Menu:Home
 RCtrl:End
+
+[FnLayer1]
+Slash:Up
+RAlt:Left
+Menu:Down
+RCtrl:Right

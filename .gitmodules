@@ -4,3 +4,6 @@
 [submodule "kitty/.config/kitty/kitty-themes"]
 	path = kitty/.config/kitty/kitty-themes
 	url = https://github.com/dexpota/kitty-themes.git
+[submodule "GK6X/GK6X"]
+	path = GK6X/GK6X
+	url = https://github.com/pixeltris/GK6X.git
